@@ -162,7 +162,7 @@
   .field label {
     font-family: 'DM Mono', monospace;
     font-size: 9px;
-    color: var(--text-off);
+    color: rgba(180,200,225,0.65);
     letter-spacing: 0.15em;
     text-transform: uppercase;
     display: block;
@@ -187,7 +187,7 @@
   .field input::placeholder { color: rgba(180,210,240,0.38); font-style: italic; }
   .field select { cursor: pointer; }
   .field select option { background: var(--bg2); color: var(--text); }
-  .field input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5) sepia(0.2); }
+  .field input[type="date"]::-webkit-calendar-picker-indicator, .field input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(1) opacity(0.5); }
 
   .field-note {
     font-family: 'DM Mono', monospace;
