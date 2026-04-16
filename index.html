@@ -983,7 +983,7 @@
 
 <script>
   const BACKEND_URL = 'https://informe-astral.fly.dev'
-  const LIMITE = 3
+  const LIMITE = 999999
   const STORAGE_KEY = 'cn_usos'
   const HISTORIAL_KEY = 'cn_historial'
   const HISTORIAL_MAX = 5
@@ -1104,15 +1104,8 @@
     const inputFecha = document.getElementById('fecha')
     inputFecha.setAttribute('max', new Date().toISOString().split('T')[0])
 
-    const usos = getUsos()
-    const restantes = LIMITE - usos.count
     const btn = document.getElementById('btn-gen')
-    if (restantes <= 0) {
-      btn.disabled = true
-      btn.querySelector('span').textContent = `Límite alcanzado — volvé en ${horasRestantes()}hs`
-    } else {
-      btn.querySelector('span').textContent = `Generar mi informe natal (${restantes} restante${restantes===1?'':'s'})`
-    }
+    btn.querySelector('span').textContent = 'Generar mi informe natal'
     renderizarHistorial()
   })
 
@@ -1272,15 +1265,8 @@
       registrarUso()
       guardarEnHistorial(nombre, fecha, lugar, foco, secciones)
 
-      const usosActuales = getUsos()
-      const restantes = LIMITE - usosActuales.count
       const btnGen = document.getElementById('btn-gen')
-      if (restantes <= 0) {
-        btnGen.disabled = true
-        btnGen.querySelector('span').textContent = `Límite alcanzado — volvé en ${horasRestantes()}hs`
-      } else {
-        btnGen.querySelector('span').textContent = `Generar mi informe natal (${restantes} restante${restantes===1?'':'s'})`
-      }
+      btnGen.querySelector('span').textContent = 'Generar mi informe natal'
 
       ocultar('loading-section')
       renderizarInforme(nombre, fecha, lugar, secciones)
