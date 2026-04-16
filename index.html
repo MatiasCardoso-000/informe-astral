@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Carta Natal — Informe Personalizado</title>
-<link rel="icon" type="image/png" href="/informe-astral.png" />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cinzel:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -291,19 +290,28 @@
 
   .loading p { font-size: 14px; color: var(--text-muted); font-style: italic; }
 
-  .progress-dots span {
-    display: inline-block;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--gold);
-    opacity: 0.3;
-    margin: 0 3px;
-    animation: dot 1.4s ease-in-out infinite;
+  .progress-bar-wrap {
+    width: 260px;
+    height: 3px;
+    background: rgba(201,168,76,0.15);
+    border-radius: 100px;
+    margin: 1.5rem auto 0;
+    overflow: hidden;
   }
-  .progress-dots span:nth-child(2) { animation-delay: 0.2s; }
-  .progress-dots span:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes dot { 0%,80%,100%{opacity:0.3;transform:scale(1)} 40%{opacity:1;transform:scale(1.3)} }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #b8913e, #e8c97a);
+    border-radius: 100px;
+    width: 0%;
+    transition: width 0.8s ease;
+  }
+  .progress-timer {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: rgba(201,168,76,0.5);
+    margin-top: 0.8rem;
+  }
 
   /* ─── INFORME ─── */
   #informe { display: none; }
@@ -572,9 +580,10 @@
     <div class="zodiac-spin"></div>
     <h3>Leyendo tu cielo natal...</h3>
     <p id="loading-status">Calculando posiciones planetarias</p>
-    <div class="progress-dots" style="margin-top:1rem">
-      <span></span><span></span><span></span>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress-bar"></div>
     </div>
+    <div class="progress-timer" id="progress-timer">0s</div>
   </div>
 
   <!-- INFORME -->
@@ -720,11 +729,31 @@
     document.getElementById('loading-section').style.display = 'block'
     document.getElementById('btn-gen').disabled = true
 
+    // Barra de progreso y timer
+    const ESTIMATED = 22 // segundos estimados
+    const bar = document.getElementById('progress-bar')
+    const timer = document.getElementById('progress-timer')
+    let elapsed = 0
+
+    const progressInterval = setInterval(() => {
+      elapsed++
+      // Progreso que se frena cerca del 90% hasta que llega la respuesta
+      const pct = Math.min(90, (elapsed / ESTIMATED) * 100)
+      bar.style.width = pct + '%'
+      timer.textContent = elapsed + 's'
+    }, 1000)
+
+    // Status rotativo
     let si = 0
     const statusInterval = setInterval(() => {
       si = (si + 1) % statuses.length
       document.getElementById('loading-status').textContent = statuses[si]
     }, 2500)
+
+    const clearAll = () => {
+      clearInterval(progressInterval)
+      clearInterval(statusInterval)
+    }
 
     try {
       const res = await fetch(`${BACKEND_URL}/api/carta-natal`, {
@@ -733,24 +762,32 @@
         body: JSON.stringify({ nombre, fecha, hora, lugar, foco, nivel })
       })
 
-      clearInterval(statusInterval)
-
       if (!res.ok) {
         const data = await res.json()
         throw new Error(data.error || `Error del servidor (${res.status})`)
       }
 
       const { texto } = await res.json()
-
       if (!texto) throw new Error('El servidor no devolvió contenido.')
 
-      const secciones = parsearSecciones(texto)
+      // Completar barra al 100% antes de mostrar
+      clearAll()
+      bar.style.width = '100%'
+      timer.textContent = elapsed + 's'
 
+      await new Promise(r => setTimeout(r, 400))
+
+      const secciones = parsearSecciones(texto)
       ocultar('loading-section')
       renderizarInforme(nombre, fecha, lugar, secciones)
 
+      // Scroll automático al informe
+      setTimeout(() => {
+        document.getElementById('informe').scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
+
     } catch (err) {
-      clearInterval(statusInterval)
+      clearAll()
       ocultar('loading-section')
       mostrar('form-section')
       document.getElementById('btn-gen').disabled = false
