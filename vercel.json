@@ -1,5 +1,11 @@
 {
   "version": 2,
-  "builds": [{ "src": "index.html", "use": "@vercel/static" }],
-  "routes": [{ "src": "/(.*)", "dest": "/index.html" }]
+  "builds": [
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "informe-astral.png", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/informe-astral.png", "dest": "/informe-astral.png" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
 }
