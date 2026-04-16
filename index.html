@@ -451,53 +451,45 @@
   .i-cover {
     padding: 4rem 0 3rem;
     border-bottom: 1px solid var(--border);
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: end;
-    gap: 2rem;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
   }
 
   .i-cover-tag {
     font-family: 'DM Mono', monospace;
     font-size: 9px;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.28em;
     color: rgba(180,200,225,0.65);
     text-transform: uppercase;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
   }
 
   .i-cover-nombre {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-size: clamp(3rem, 7vw, 5.5rem);
     font-weight: 900;
     font-style: italic;
     color: var(--text);
-    line-height: 1;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.5rem;
-  }
-
-  .i-cover-titulo {
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    font-weight: 400;
-    color: var(--silver);
-    letter-spacing: 0.05em;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
   }
 
   .i-cover-meta {
-    text-align: right;
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    padding-top: 1.2rem;
   }
 
   .i-cover-pill {
     font-family: 'DM Mono', monospace;
-    font-size: 9.5px;
-    color: var(--text-off);
-    letter-spacing: 0.12em;
-    display: block;
-    margin-bottom: 0.4rem;
+    font-size: 12px;
+    color: rgba(200,218,240,0.85);
+    letter-spacing: 0.15em;
   }
+
+  .i-cover-titulo { display: none; }
 
   /* Secciones */
   .i-sec {
@@ -553,47 +545,52 @@
   /* Botón copiar */
   .btn-copiar {
     position: absolute;
-    top: 2.2rem; right: 0;
-    background: transparent;
-    border: 1px solid var(--border);
-    padding: 4px 12px;
+    top: 2.5rem; right: 0;
+    background: rgba(148,172,209,0.07);
+    border: 1px solid rgba(148,172,209,0.35);
+    padding: 6px 16px;
     font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.12em;
-    color: var(--text-off);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: rgba(180,200,225,0.75);
     cursor: pointer;
     transition: all 0.2s;
     text-transform: uppercase;
   }
-  .btn-copiar:hover { border-color: var(--silver); color: var(--silver2); }
-  .btn-copiar.copiado { color: #7acc9f; border-color: rgba(122,204,159,0.4); }
+  .btn-copiar:hover { border-color: rgba(180,200,225,0.6); color: #fff; background: rgba(148,172,209,0.15); }
+  .btn-copiar.copiado { color: #7acc9f; border-color: rgba(122,204,159,0.5); background: rgba(122,204,159,0.07); }
 
   /* Acciones del informe */
   .i-actions {
     display: flex;
     gap: 1rem;
-    padding: 2.5rem 0;
+    padding: 2.5rem 0 0;
     justify-content: flex-start;
     flex-wrap: wrap;
   }
 
   .btn-accion {
     background: transparent;
-    border: 1px solid var(--border2);
-    padding: 0.65rem 1.5rem;
+    border: 1px solid rgba(148,172,209,0.25);
+    padding: 0.8rem 1.8rem;
     font-family: 'DM Mono', monospace;
     font-size: 10px;
-    letter-spacing: 0.2em;
-    color: var(--text-dim);
+    letter-spacing: 0.22em;
+    color: rgba(180,200,225,0.6);
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.25s;
     text-transform: uppercase;
     display: flex;
     align-items: center;
     gap: 0.6rem;
   }
-  .btn-accion:hover { border-color: var(--silver); color: var(--silver2); }
-  .btn-accion.primary { border-color: rgba(148,172,209,0.35); }
+  .btn-accion:hover { border-color: var(--silver); color: var(--text); background: rgba(148,172,209,0.06); }
+  .btn-accion.primary {
+    background: rgba(148,172,209,0.08);
+    border-color: rgba(148,172,209,0.4);
+    color: rgba(200,215,235,0.8);
+  }
+  .btn-accion.primary:hover { background: rgba(148,172,209,0.15); color: var(--text); }
 
   /* ════════════════════════════════
      PRINT
@@ -700,7 +697,6 @@
         <blockquote class="quote">
           "La carta natal no dice lo que te va a pasar.<br>Dice quién sos cuando nadie te mira."
         </blockquote>
-
         <ul class="feats">
           <li class="feat">
             <span class="feat-n">01</span>
