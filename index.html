@@ -81,7 +81,7 @@
     font-size: 10px;
     font-weight: 300;
     letter-spacing: 0.28em;
-    color: var(--text-off);
+    color: rgba(180,205,230,0.52);
     text-transform: uppercase;
     margin-bottom: 1.4rem;
   }
@@ -109,7 +109,7 @@
 
   .hdr-tagline {
     font-size: 12.5px;
-    color: var(--text-off);
+    color: rgba(180,205,230,0.58);
     line-height: 1.85;
     font-style: italic;
     max-width: 180px;
@@ -184,7 +184,7 @@
   }
 
   .field input:focus, .field select:focus { border-bottom-color: var(--silver); }
-  .field input::placeholder { color: rgba(148,172,209,0.18); font-style: italic; }
+  .field input::placeholder { color: rgba(180,210,240,0.38); font-style: italic; }
   .field select { cursor: pointer; }
   .field select option { background: var(--bg2); color: var(--text); }
   .field input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5) sepia(0.2); }
@@ -192,7 +192,7 @@
   .field-note {
     font-family: 'DM Mono', monospace;
     font-size: 9px;
-    color: rgba(148,172,209,0.22);
+    color: rgba(148,172,209,0.45);
     letter-spacing: 0.05em;
     margin-top: 4px;
   }
@@ -242,7 +242,7 @@
     font-style: italic;
     font-size: 1.15rem;
     line-height: 1.65;
-    color: var(--text-dim);
+    color: rgba(200,218,238,0.62);
     border-left: 1px solid var(--border2);
     padding-left: 1.4rem;
     margin-bottom: 2.5rem;
@@ -266,8 +266,8 @@
     flex-shrink: 0; min-width: 18px;
   }
 
-  .feat-title { display: block; font-size: 14px; color: rgba(238,242,247,0.8); margin-bottom: 2px; }
-  .feat-desc { font-size: 12.5px; color: rgba(148,172,209,0.38); line-height: 1.5; }
+  .feat-title { display: block; font-size: 14px; color: rgba(238,242,247,0.92); margin-bottom: 2px; }
+  .feat-desc { font-size: 12.5px; color: rgba(180,205,230,0.58); line-height: 1.5; }
 
   /* Footer strip */
   .strip {
@@ -343,7 +343,7 @@
   .historial-meta {
     font-family: 'DM Mono', monospace;
     font-size: 10px;
-    color: var(--text-off);
+    color: rgba(180,205,230,0.52);
     margin-top: 2px;
     letter-spacing: 0.05em;
   }
@@ -362,7 +362,7 @@
   .historial-ver {
     font-family: 'DM Mono', monospace;
     font-size: 10px;
-    color: var(--text-off);
+    color: rgba(148,172,209,0.55);
     flex-shrink: 0;
   }
 
@@ -528,12 +528,6 @@
     letter-spacing: -0.01em;
   }
 
-  .i-sec-sym {
-    font-family: 'Newsreader', serif;
-    font-size: 1.2rem;
-    color: rgba(148,172,209,0.2);
-    flex-shrink: 0;
-  }
 
   .i-sec-body {
     font-size: 15.5px;
@@ -763,7 +757,6 @@
 
   <!-- ══ STRIP ══ -->
   <footer class="strip" aria-hidden="true">
-    <div class="strip-zodiac">♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓</div>
     <div class="strip-copy">De Raíz al Alma · 2025</div>
   </footer>
 
@@ -779,14 +772,14 @@
   const focoLabels = { completo:'Completo', amor:'Amor', mision:'Misión', emocional:'Emocional', talentos:'Talentos' }
 
   const SECCIONES = [
-    { key:'SOL',          label:'El Sol',           sym:'☉', n:'01' },
-    { key:'LUNA',         label:'La Luna',           sym:'☽', n:'02' },
-    { key:'ASCENDENTE',   label:'El Ascendente',     sym:'↑', n:'03' },
-    { key:'AMOR',         label:'Amor y Vínculos',   sym:'♀', n:'04' },
-    { key:'MISION',       label:'Misión de Vida',    sym:'✦', n:'05' },
-    { key:'TALENTOS',     label:'Talentos y Dones',  sym:'◈', n:'06' },
-    { key:'MENSAJE',      label:'Carta del Alma',    sym:'❧', n:'07' },
-    { key:'AFIRMACIONES', label:'Afirmaciones',      sym:'·', n:'08' },
+    { key:'SOL',          label:'El Sol',           n:'01' },
+    { key:'LUNA',         label:'La Luna',           n:'02' },
+    { key:'ASCENDENTE',   label:'El Ascendente',     n:'03' },
+    { key:'AMOR',         label:'Amor y Vínculos',   n:'04' },
+    { key:'MISION',       label:'Misión de Vida',    n:'05' },
+    { key:'TALENTOS',     label:'Talentos y Dones',  n:'06' },
+    { key:'MENSAJE',      label:'Carta del Alma',    n:'07' },
+    { key:'AFIRMACIONES', label:'Afirmaciones',      n:'08' },
   ]
 
   const statuses = [
@@ -904,7 +897,7 @@
           <div class="i-sec-header">
             <span class="i-sec-num">${s.n}</span>
             <h2 class="i-sec-title">${s.label}</h2>
-            <span class="i-sec-sym" aria-hidden="true">${s.sym}</span>
+            
           </div>
           ${items || `<div class="i-sec-body"><p>${contenido}</p></div>`}
         </section>`
@@ -917,7 +910,7 @@
         <div class="i-sec-header">
           <span class="i-sec-num">${s.n}</span>
           <h2 class="i-sec-title">${s.label}</h2>
-          <span class="i-sec-sym" aria-hidden="true">${s.sym}</span>
+          
         </div>
         <div class="i-sec-body">${parrafos||contenido}</div>
       </section>`
