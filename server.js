@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import Groq from 'groq-sdk'
+import rateLimit from 'express-rate-limit'
 import 'dotenv/config'
 
 const app = express()
@@ -8,10 +9,31 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
 app.use(cors())
 app.use(express.json())
+app.set('trust proxy', 1)
+
+// Global: 60 req / 15 min por IP
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 60,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Demasiadas solicitudes. Intentá de nuevo en 15 minutos.' }
+})
+
+// Generación: 3 informes / hora por IP
+const informeLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 3,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Alcanzaste el límite de 3 informes por hora. Intentá más tarde.' },
+})
+
+app.use(globalLimiter)
 
 app.get('/health', (_, res) => res.json({ status: 'ok' }))
 
-app.post('/api/carta-natal', async (req, res) => {
+app.post('/api/carta-natal', informeLimiter, async (req, res) => {
   const { nombre, fecha, hora, lugar, foco, nivel } = req.body
 
   if (!nombre || !fecha || !lugar) {
