@@ -82,21 +82,24 @@
 
   .hdr-h1 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(2.6rem, 6vw, 4.8rem);
+    font-size: clamp(2.8rem, 6.5vw, 5.5rem);
     font-weight: 900;
-    line-height: 0.93;
+    line-height: 0.9;
     color: var(--text);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
   }
 
   .hdr-h1 em {
     font-style: italic;
-    font-weight: 400;
+    font-weight: 300;
     color: var(--silver);
-    display: block;
-    font-size: 0.68em;
-    line-height: 1.35;
-    margin-top: 0.25em;
+    display: inline-block;
+    font-size: 0.55em;
+    line-height: 1;
+    margin-top: 0.6em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
   }
 
   .hdr-right { text-align: right; }
@@ -196,12 +199,12 @@
   .btn-gen {
     margin-top: 2.5rem;
     width: 100%;
-    padding: 1rem 1.5rem;
-    background: transparent;
+    padding: 1.1rem 1.8rem;
+    background: rgba(148,172,209,0.1);
     color: var(--text);
-    border: 1px solid var(--border2);
+    border: 1px solid rgba(148,172,209,0.45);
     font-family: 'DM Mono', monospace;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 400;
     letter-spacing: 0.25em;
     text-transform: uppercase;
@@ -211,10 +214,14 @@
     align-items: center;
     justify-content: space-between;
   }
-  .btn-gen:hover { background: rgba(148,172,209,0.06); border-color: var(--silver); color: var(--silver2); }
+  .btn-gen:hover {
+    background: rgba(148,172,209,0.18);
+    border-color: rgba(180,200,225,0.7);
+    color: #fff;
+  }
   .btn-gen:disabled { opacity: 0.35; cursor: not-allowed; }
-  .btn-gen-arrow { font-size: 1rem; color: var(--text-off); transition: transform 0.25s; }
-  .btn-gen:hover .btn-gen-arrow { transform: translateX(5px); color: var(--silver); }
+  .btn-gen-arrow { font-size: 1.1rem; color: var(--silver); transition: transform 0.25s; }
+  .btn-gen:hover .btn-gen-arrow { transform: translateX(6px); }
 
   .err-box {
     margin-top: 0.9rem;
@@ -620,8 +627,8 @@
     <div>
         <div class="brand">De Raíz al Alma &nbsp;·&nbsp; Cartas Natales</div>
       <h1 class="hdr-h1">
-        Tu mapa<br>del cielo.
-        <em>Interpretado con profundidad.</em>
+        El cielo guardó<br>tu mapa el día<br>que naciste.
+        <em>Descubrilo.</em>
       </h1>
     </div>
     <div class="hdr-right" aria-hidden="true">
