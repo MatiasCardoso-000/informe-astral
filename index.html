@@ -3,7 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Carta Natal — Informe Personalizado</title>
+<title>Carta Natal — De Raíz al Alma</title>
+<meta name="description" content="Recibí tu informe de carta natal personalizado al instante. Descubrí tu Sol, Luna, Ascendente, misión de vida y talentos únicos." />
+<meta name="robots" content="index, follow" />
+<meta property="og:title" content="Carta Natal — De Raíz al Alma" />
+<meta property="og:description" content="Tu informe astrológico personalizado. Sol, Luna, Ascendente, amor, misión y talentos." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="/informe-astral.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Carta Natal — De Raíz al Alma" />
+<meta name="twitter:description" content="Tu informe astrológico personalizado al instante." />
+<link rel="icon" type="image/png" href="/informe-astral.png" />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cinzel:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -16,10 +26,6 @@
     --text: #e8e0f0;
     --text-muted: rgba(232,224,240,0.55);
     --text-dim: rgba(232,224,240,0.35);
-    --crimson: #8b1a2e;
-    --emerald: #1a5c3a;
-    --cobalt: #1a2d5c;
-    --violet: #3a1560;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -33,7 +39,6 @@
     min-height: 100vh;
   }
 
-  /* ─── STARS ─── */
   #stars {
     position: fixed;
     inset: 0;
@@ -55,7 +60,6 @@
     50% { opacity: 0.1; transform: scale(0.6); }
   }
 
-  /* ─── LAYOUT ─── */
   .wrap {
     position: relative;
     z-index: 1;
@@ -64,7 +68,6 @@
     padding: 3rem 1.5rem 6rem;
   }
 
-  /* ─── HEADER ─── */
   .header { text-align: center; margin-bottom: 3rem; }
 
   .eyebrow {
@@ -110,7 +113,6 @@
   }
   .ornament span { color: var(--gold); font-size: 0.9rem; letter-spacing: 0.3em; }
 
-  /* ─── FEATURES ROW ─── */
   .features {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -149,7 +151,6 @@
 
   .feat-desc { font-size: 11.5px; color: var(--text-muted); line-height: 1.5; }
 
-  /* ─── FORM CARD ─── */
   .form-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -242,36 +243,25 @@
     display: none;
   }
 
-  /* ─── LOADING ─── */
-  .loading {
-    text-align: center;
-    padding: 4rem 2rem;
-    display: none;
-  }
+  .loading { text-align: center; padding: 4rem 2rem; display: none; }
 
   .zodiac-spin {
-    width: 64px;
-    height: 64px;
+    width: 64px; height: 64px;
     margin: 0 auto 1.5rem;
     position: relative;
   }
 
   .zodiac-spin::before {
     content: '✦';
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.6rem;
-    color: var(--gold);
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; color: var(--gold);
     animation: pulse 1.5s ease-in-out infinite;
   }
 
   .zodiac-spin::after {
     content: '';
-    position: absolute;
-    inset: 0;
+    position: absolute; inset: 0;
     border: 1.5px solid rgba(201,168,76,0.2);
     border-top-color: var(--gold);
     border-radius: 50%;
@@ -279,20 +269,13 @@
   }
 
   @keyframes spin { to { transform: rotate(360deg); } }
-  @keyframes pulse { 0%,100% { opacity:1; transform: scale(1); } 50% { opacity:0.5; transform: scale(0.85); } }
+  @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(0.85); } }
 
-  .loading h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.35rem;
-    color: #f5f0e8;
-    margin-bottom: 0.5rem;
-  }
-
+  .loading h3 { font-family: 'Playfair Display', serif; font-size: 1.35rem; color: #f5f0e8; margin-bottom: 0.5rem; }
   .loading p { font-size: 14px; color: var(--text-muted); font-style: italic; }
 
   .progress-bar-wrap {
-    width: 260px;
-    height: 3px;
+    width: 260px; height: 3px;
     background: rgba(201,168,76,0.15);
     border-radius: 100px;
     margin: 1.5rem auto 0;
@@ -313,9 +296,7 @@
     margin-top: 0.8rem;
   }
 
-  /* ─── INFORME ─── */
   #informe { display: none; }
-
   .informe-wrap { animation: fadeUp 0.5s ease; }
 
   @keyframes fadeUp {
@@ -323,7 +304,6 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Cover */
   .i-cover {
     background: linear-gradient(135deg, #1c0d38 0%, #2d1555 100%);
     border: 1px solid rgba(201,168,76,0.3);
@@ -337,73 +317,51 @@
 
   .i-cover::before {
     content: '✦';
-    position: absolute;
-    top: 1.5rem; right: 2rem;
-    font-size: 5rem;
-    opacity: 0.05;
-    color: var(--gold);
-    pointer-events: none;
+    position: absolute; top: 1.5rem; right: 2rem;
+    font-size: 5rem; opacity: 0.05;
+    color: var(--gold); pointer-events: none;
   }
 
   .i-cover-tag {
     font-family: 'Cinzel', serif;
-    font-size: 9px;
-    letter-spacing: 0.3em;
-    color: var(--gold);
-    margin-bottom: 0.7rem;
+    font-size: 9px; letter-spacing: 0.3em;
+    color: var(--gold); margin-bottom: 0.7rem;
   }
 
   .i-cover h2 {
     font-family: 'Playfair Display', serif;
     font-size: clamp(1.4rem, 4vw, 2rem);
-    color: #f5f0e8;
-    font-weight: 700;
-    margin-bottom: 0.3rem;
+    color: #f5f0e8; font-weight: 700; margin-bottom: 0.3rem;
   }
 
   .i-nombre {
     font-family: 'Playfair Display', serif;
-    font-style: italic;
-    color: var(--gold);
-    font-size: 1.3rem;
-    margin-bottom: 1.2rem;
+    font-style: italic; color: var(--gold);
+    font-size: 1.3rem; margin-bottom: 1.2rem;
   }
 
-  .i-pills {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
+  .i-pills { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.5rem; }
 
   .i-pill {
     background: rgba(201,168,76,0.1);
     border: 1px solid rgba(201,168,76,0.2);
-    border-radius: 100px;
-    padding: 3px 13px;
-    font-family: 'Cinzel', serif;
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    color: rgba(232,224,240,0.65);
+    border-radius: 100px; padding: 3px 13px;
+    font-family: 'Cinzel', serif; font-size: 9px;
+    letter-spacing: 0.1em; color: rgba(232,224,240,0.65);
   }
 
-  /* Sections */
   .i-sec {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 11px;
-    padding: 2rem;
+    border-radius: 11px; padding: 2rem;
     margin-bottom: 1.1rem;
-    position: relative;
-    overflow: hidden;
+    position: relative; overflow: hidden;
   }
 
   .i-sec::before {
     content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px;
-    height: 100%;
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%;
   }
 
   .i-sec.sol::before { background: #d4a94e; }
@@ -416,66 +374,39 @@
   .i-sec.afirmaciones::before { background: #c9a84c; }
 
   .i-sec-label {
-    font-family: 'Cinzel', serif;
-    font-size: 9px;
-    letter-spacing: 0.25em;
-    color: var(--gold);
-    margin-bottom: 0.3rem;
+    font-family: 'Cinzel', serif; font-size: 9px;
+    letter-spacing: 0.25em; color: var(--gold); margin-bottom: 0.3rem;
   }
 
   .i-sec h3 {
     font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #f5f0e8;
-    margin-bottom: 1rem;
+    font-size: 1.2rem; font-weight: 600;
+    color: #f5f0e8; margin-bottom: 1rem;
   }
 
   .i-sec-body {
-    font-size: 15px;
-    line-height: 1.85;
+    font-size: 15px; line-height: 1.85;
     color: rgba(232,224,240,0.75);
-    white-space: pre-wrap;
   }
 
   .i-sec-body p { margin-bottom: 0.9rem; }
 
   .afirmacion {
     border-left: 2px solid var(--gold);
-    padding: 0.65rem 1rem;
-    margin-bottom: 0.7rem;
+    padding: 0.65rem 1rem; margin-bottom: 0.7rem;
     background: rgba(201,168,76,0.06);
     border-radius: 0 6px 6px 0;
-    font-style: italic;
-    font-size: 14.5px;
-    color: rgba(232,224,240,0.8);
-    line-height: 1.65;
+    font-style: italic; font-size: 14.5px;
+    color: rgba(232,224,240,0.8); line-height: 1.65;
   }
 
-  .cursor {
-    display: inline-block;
-    width: 2px;
-    height: 1em;
-    background: var(--gold);
-    margin-left: 2px;
-    vertical-align: middle;
-    animation: blink 0.7s step-end infinite;
-  }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-
-  /* Reset btn */
   .btn-reset {
     background: transparent;
     border: 1px solid rgba(201,168,76,0.3);
     color: rgba(201,168,76,0.75);
-    padding: 0.65rem 1.6rem;
-    border-radius: 7px;
-    font-family: 'Cinzel', serif;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    cursor: pointer;
-    display: block;
-    margin: 2rem auto 0;
+    padding: 0.65rem 1.6rem; border-radius: 7px;
+    font-family: 'Cinzel', serif; font-size: 10px;
+    letter-spacing: 0.15em; cursor: pointer;
     transition: all 0.2s;
   }
   .btn-reset:hover { background: rgba(201,168,76,0.08); border-color: rgba(201,168,76,0.5); }
@@ -483,198 +414,114 @@
   .btn-pdf {
     background: rgba(201,168,76,0.12);
     border: 1px solid rgba(201,168,76,0.4);
-    color: var(--gold);
-    padding: 0.65rem 1.6rem;
-    border-radius: 7px;
-    font-family: 'Cinzel', serif;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    cursor: pointer;
-    display: block;
-    margin: 0.7rem auto 0;
-    transition: all 0.2s;
+    color: var(--gold); padding: 0.65rem 1.6rem;
+    border-radius: 7px; font-family: 'Cinzel', serif;
+    font-size: 10px; letter-spacing: 0.15em;
+    cursor: pointer; transition: all 0.2s;
   }
   .btn-pdf:hover { background: rgba(201,168,76,0.22); }
 
   .btn-actions {
-    display: flex;
-    gap: 0.8rem;
+    display: flex; gap: 0.8rem;
     justify-content: center;
-    margin-top: 2rem;
-    flex-wrap: wrap;
-  }
-
-  .btn-actions .btn-reset,
-  .btn-actions .btn-pdf {
-    margin: 0;
+    margin-top: 2rem; flex-wrap: wrap;
   }
 
   .btn-copiar {
-    position: absolute;
-    top: 1.2rem;
-    right: 1.2rem;
+    position: absolute; top: 1.2rem; right: 1.2rem;
     background: rgba(201,168,76,0.18);
     border: 1px solid rgba(201,168,76,0.5);
-    border-radius: 6px;
-    padding: 6px 14px;
-    font-family: 'Cinzel', serif;
-    font-size: 9px;
-    letter-spacing: 0.15em;
-    color: var(--gold);
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    border-radius: 6px; padding: 6px 14px;
+    font-family: 'Cinzel', serif; font-size: 9px;
+    letter-spacing: 0.15em; color: var(--gold);
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; gap: 5px;
     font-weight: 600;
   }
   .btn-copiar:hover { background: rgba(201,168,76,0.32); border-color: var(--gold); color: #f5e8c0; }
   .btn-copiar.copiado { color: #7acc9f; border-color: rgba(122,204,159,0.6); background: rgba(122,204,159,0.15); }
 
-  @media print { .btn-copiar { display: none !important; } }
-
   /* ─── HISTORIAL ─── */
-  .historial-wrap {
-    margin-top: 2rem;
-  }
+  .historial-wrap { margin-top: 2rem; }
 
   .historial-titulo {
-    font-family: 'Cinzel', serif;
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    color: var(--gold);
+    font-family: 'Cinzel', serif; font-size: 10px;
+    letter-spacing: 0.25em; color: var(--gold);
     margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
+    display: flex; align-items: center; gap: 0.8rem;
   }
-
   .historial-titulo::after {
-    content: '';
-    flex: 1;
-    height: 1px;
+    content: ''; flex: 1; height: 1px;
     background: rgba(201,168,76,0.2);
   }
 
-  .historial-lista {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-  }
+  .historial-lista { display: flex; flex-direction: column; gap: 0.6rem; }
 
   .historial-item {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.85rem 1.2rem;
-    display: flex;
-    align-items: center;
+    border-radius: 8px; padding: 0.85rem 1.2rem;
+    display: flex; align-items: center;
     justify-content: space-between;
-    cursor: pointer;
-    transition: all 0.2s;
-    gap: 1rem;
+    cursor: pointer; transition: all 0.2s; gap: 1rem;
   }
-
-  .historial-item:hover {
-    border-color: rgba(201,168,76,0.4);
-    background: rgba(255,255,255,0.07);
-  }
+  .historial-item:hover { border-color: rgba(201,168,76,0.4); background: rgba(255,255,255,0.07); }
 
   .historial-info { flex: 1; min-width: 0; }
 
   .historial-nombre {
     font-family: 'Playfair Display', serif;
-    font-size: 0.95rem;
-    font-style: italic;
-    color: #f5f0e8;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 0.95rem; font-style: italic;
+    color: #f5f0e8; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
   }
 
-  .historial-meta {
-    font-size: 11px;
-    color: var(--text-muted);
-    margin-top: 2px;
-  }
+  .historial-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 
   .historial-foco {
-    font-family: 'Cinzel', serif;
-    font-size: 8px;
-    letter-spacing: 0.1em;
-    color: var(--gold);
+    font-family: 'Cinzel', serif; font-size: 8px;
+    letter-spacing: 0.1em; color: var(--gold);
     background: rgba(201,168,76,0.1);
     border: 1px solid rgba(201,168,76,0.2);
-    border-radius: 100px;
-    padding: 2px 8px;
-    white-space: nowrap;
-    flex-shrink: 0;
+    border-radius: 100px; padding: 2px 8px;
+    white-space: nowrap; flex-shrink: 0;
   }
 
   .historial-ver {
-    font-family: 'Cinzel', serif;
-    font-size: 8px;
-    letter-spacing: 0.12em;
-    color: rgba(201,168,76,0.6);
+    font-family: 'Cinzel', serif; font-size: 8px;
+    letter-spacing: 0.12em; color: rgba(201,168,76,0.6);
     flex-shrink: 0;
   }
-
-  .historial-empty {
-    font-size: 13px;
-    color: var(--text-dim);
-    font-style: italic;
-    text-align: center;
-    padding: 1rem 0;
-  }
-
-  @media print { .historial-wrap { display: none !important; } }
 
   /* ─── PRINT ─── */
   @media print {
     @page { margin: 2cm; size: A4; }
-
     #stars, .header, .features, #form-section,
-    .loading, .btn-actions { display: none !important; }
-
+    .loading, .btn-actions, .historial-wrap,
+    .btn-copiar { display: none !important; }
     body { background: white; color: #1a1520; font-size: 13px; }
-
     .wrap { padding: 0; max-width: 100%; }
-
     #informe { display: block !important; }
-
     .i-cover {
       background: #1c0d38 !important;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
-      border-radius: 8px;
-      padding: 2rem;
-      margin-bottom: 1.2rem;
+      border-radius: 8px; padding: 2rem; margin-bottom: 1.2rem;
     }
-
     .i-cover h2, .i-nombre { color: #f5f0e8 !important; }
     .i-cover-tag, .i-pill { color: #c9a84c !important; }
-
     .i-sec {
       background: #f9f6f0 !important;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
       border: 1px solid #e0d5b8 !important;
-      border-radius: 6px;
-      padding: 1.4rem;
-      margin-bottom: 0.8rem;
-      page-break-inside: avoid;
+      border-radius: 6px; padding: 1.4rem;
+      margin-bottom: 0.8rem; page-break-inside: avoid;
     }
-
-    .i-sec::before {
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
-    }
-
+    .i-sec::before { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .i-sec-label { color: #b8913e !important; }
     .i-sec h3 { color: #1a1520 !important; }
-    .i-sec-body { color: #3a3545 !important; }
-    .i-sec-body p { color: #3a3545 !important; }
-
+    .i-sec-body, .i-sec-body p { color: #3a3545 !important; }
     .afirmacion {
       background: #faf5e8 !important;
       -webkit-print-color-adjust: exact;
@@ -682,79 +529,75 @@
       border-left-color: #c9a84c !important;
       color: #3a3545 !important;
     }
-
     .informe-wrap { animation: none !important; }
   }
 </style>
 </head>
 <body>
 
-<div id="stars"></div>
+<div id="stars" aria-hidden="true"></div>
 
 <div class="wrap">
 
-  <!-- HEADER -->
-  <div class="header">
+  <header class="header">
     <div class="eyebrow">De Raíz al Alma</div>
     <h1>Tu Carta Natal,<br><em>interpretada con precisión</em></h1>
-    <div class="ornament"><span>✦ ✦ ✦</span></div>
+    <div class="ornament" aria-hidden="true"><span>✦ ✦ ✦</span></div>
     <p>No es predicción. Es claridad emocional aplicada a tu vida real.<br>Ingresá tus datos y recibí un informe personalizado al instante.</p>
-  </div>
+  </header>
 
-  <!-- FEATURES -->
-  <div class="features">
+  <section class="features" aria-label="Características del servicio">
     <div class="feat">
-      <div class="feat-icon" style="background:rgba(59,108,220,0.2);">⚡</div>
+      <div class="feat-icon" style="background:rgba(59,108,220,0.2);" aria-hidden="true">⚡</div>
       <div class="feat-title">Instantáneo</div>
       <div class="feat-desc">Tu informe en segundos, no en 48hs</div>
     </div>
     <div class="feat">
-      <div class="feat-icon" style="background:rgba(201,168,76,0.2);">✦</div>
+      <div class="feat-icon" style="background:rgba(201,168,76,0.2);" aria-hidden="true">✦</div>
       <div class="feat-title">Personalizado</div>
       <div class="feat-desc">Escrito para vos, no genérico</div>
     </div>
     <div class="feat">
-      <div class="feat-icon" style="background:rgba(150,60,180,0.2);">◎</div>
+      <div class="feat-icon" style="background:rgba(150,60,180,0.2);" aria-hidden="true">◎</div>
       <div class="feat-title">Profesional</div>
       <div class="feat-desc">Interpretación profunda y detallada</div>
     </div>
     <div class="feat">
-      <div class="feat-icon" style="background:rgba(26,92,58,0.3);">♾</div>
+      <div class="feat-icon" style="background:rgba(26,92,58,0.3);" aria-hidden="true">♾</div>
       <div class="feat-title">Sin límites</div>
       <div class="feat-desc">Generá cuantos informes quieras</div>
     </div>
-  </div>
+  </section>
 
-  <!-- FORM -->
   <div id="form-section">
     <div class="form-card">
-      <div class="card-title">✦ &nbsp; Tus datos de nacimiento</div>
-      <div class="form-grid">
+      <div class="card-title" aria-hidden="true">✦ &nbsp; Tus datos de nacimiento</div>
+      <form class="form-grid" onsubmit="event.preventDefault(); generarInforme()">
 
         <div class="field full">
-          <label>Nombre completo</label>
-          <input type="text" id="nombre" placeholder="Tu nombre y apellido" />
+          <label for="nombre">Nombre completo</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Tu nombre y apellido" autocomplete="given-name" required />
         </div>
 
         <div class="field">
-          <label>Fecha de nacimiento</label>
-          <input type="date" id="fecha" />
+          <label for="fecha">Fecha de nacimiento</label>
+          <input type="date" id="fecha" name="fecha" autocomplete="bday" required />
         </div>
 
         <div class="field">
-          <label>Hora de nacimiento</label>
-          <input type="time" id="hora" />
-          <div class="hora-note">Opcional — mejora la precisión del Ascendente</div>
+          <label for="hora">Hora de nacimiento</label>
+          <input type="time" id="hora" name="hora" aria-describedby="hora-nota" />
+          <div class="hora-note" id="hora-nota">Opcional — mejora la precisión del Ascendente</div>
         </div>
 
         <div class="field full">
-          <label>Ciudad y país de nacimiento</label>
-          <input type="text" id="lugar" placeholder="Ej: Buenos Aires, Argentina" />
+          <label for="lugar">Ciudad y país de nacimiento</label>
+          <input type="text" id="lugar" name="lugar" placeholder="Ej: Buenos Aires, Argentina" required />
         </div>
 
         <div class="field">
-          <label>¿Qué querés explorar?</label>
-          <select id="foco">
+          <label for="foco">¿Qué querés explorar?</label>
+          <select id="foco" name="foco">
             <option value="completo">Informe completo</option>
             <option value="amor">Amor y vínculos</option>
             <option value="mision">Misión y carrera</option>
@@ -764,41 +607,48 @@
         </div>
 
         <div class="field">
-          <label>Nivel de lenguaje</label>
-          <select id="nivel">
+          <label for="nivel">Nivel de lenguaje</label>
+          <select id="nivel" name="nivel">
             <option value="accesible">Accesible (sin tecnicismos)</option>
             <option value="intermedio">Intermedio</option>
             <option value="tecnico">Técnico (con posiciones)</option>
           </select>
         </div>
 
-      </div>
+        <div class="field full">
+          <button class="btn-gen" id="btn-gen" type="submit" aria-label="Generar mi informe natal">
+            ✦ &nbsp; GENERAR MI INFORME NATAL &nbsp; ✦
+          </button>
+          <div class="err" id="err-box" role="alert" aria-live="assertive"></div>
+        </div>
 
-      <button class="btn-gen" id="btn-gen" onclick="generarInforme()">
-        ✦ &nbsp; GENERAR MI INFORME NATAL &nbsp; ✦
-      </button>
-      <div class="err" id="err-box"></div>
+      </form>
     </div>
+  </div>
+
+  <!-- HISTORIAL -->
+  <div class="historial-wrap" id="historial-wrap" style="display:none" aria-label="Informes anteriores">
+    <div class="historial-titulo">✦ &nbsp; INFORMES ANTERIORES</div>
+    <div class="historial-lista" id="historial-lista"></div>
   </div>
 
   <!-- LOADING -->
-  <div class="loading" id="loading-section">
-    <div class="zodiac-spin"></div>
+  <div class="loading" id="loading-section" role="status" aria-live="polite">
+    <div class="zodiac-spin" aria-hidden="true"></div>
     <h3>Leyendo tu cielo natal...</h3>
-    <p id="loading-status">Calculando posiciones planetarias</p>
-    <div class="progress-bar-wrap">
+    <p id="loading-status" aria-atomic="true">Calculando posiciones planetarias</p>
+    <div class="progress-bar-wrap" aria-hidden="true">
       <div class="progress-bar-fill" id="progress-bar"></div>
     </div>
-    <div class="progress-timer" id="progress-timer">0s</div>
+    <div class="progress-timer" id="progress-timer" aria-hidden="true">0s</div>
   </div>
 
   <!-- INFORME -->
-  <div id="informe"></div>
+  <main id="informe" aria-label="Informe astrológico"></main>
 
 </div>
 
 <script>
-  // Estrellas de fondo
   const starsEl = document.getElementById('stars')
   for (let i = 0; i < 90; i++) {
     const s = document.createElement('div')
@@ -808,18 +658,21 @@
     starsEl.appendChild(s)
   }
 
-  // ── Cambiá esta URL cuando deployés el backend ──
   const BACKEND_URL = 'https://informe-astral.fly.dev'
-
-  // ── Límite de generaciones por sesión (24hs) ──
   const LIMITE = 3
   const STORAGE_KEY = 'cn_usos'
+  const HISTORIAL_KEY = 'cn_historial'
+  const HISTORIAL_MAX = 5
+
+  const focoLabels = {
+    completo: 'Completo', amor: 'Amor', mision: 'Misión',
+    emocional: 'Emocional', talentos: 'Talentos'
+  }
 
   function getUsos() {
     try {
       const data = JSON.parse(localStorage.getItem(STORAGE_KEY))
       if (!data) return { count: 0, timestamp: Date.now() }
-      // Resetear si pasaron más de 24hs
       if (Date.now() - data.timestamp > 24 * 60 * 60 * 1000) {
         localStorage.removeItem(STORAGE_KEY)
         return { count: 0, timestamp: Date.now() }
@@ -843,15 +696,6 @@
     } catch { return 0 }
   }
 
-  // ── Historial ──
-  const HISTORIAL_KEY = 'cn_historial'
-  const HISTORIAL_MAX = 5
-
-  const focoLabels = {
-    completo: 'Completo', amor: 'Amor', mision: 'Misión',
-    emocional: 'Emocional', talentos: 'Talentos'
-  }
-
   function getHistorial() {
     try { return JSON.parse(localStorage.getItem(HISTORIAL_KEY)) || [] }
     catch { return [] }
@@ -859,14 +703,7 @@
 
   function guardarEnHistorial(nombre, fecha, lugar, foco, secciones) {
     const historial = getHistorial()
-    const entrada = {
-      id: Date.now(),
-      nombre, fecha, lugar,
-      foco: foco || 'completo',
-      secciones,
-      timestamp: Date.now()
-    }
-    historial.unshift(entrada)
+    historial.unshift({ id: Date.now(), nombre, fecha, lugar, foco: foco || 'completo', secciones, timestamp: Date.now() })
     if (historial.length > HISTORIAL_MAX) historial.pop()
     localStorage.setItem(HISTORIAL_KEY, JSON.stringify(historial))
   }
@@ -876,35 +713,30 @@
     const wrap = document.getElementById('historial-wrap')
     const lista = document.getElementById('historial-lista')
     if (!historial.length) { wrap.style.display = 'none'; return }
-
     wrap.style.display = 'block'
     lista.innerHTML = historial.map(h => {
-      const fecha = new Date(h.timestamp).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' })
+      const fechaGen = new Date(h.timestamp).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' })
       return `
-        <div class="historial-item" onclick="verDesdeHistorial(${h.id})">
+        <div class="historial-item" onclick="verDesdeHistorial(${h.id})" role="button" tabindex="0" aria-label="Ver informe de ${h.nombre}">
           <div class="historial-info">
             <div class="historial-nombre">${h.nombre}</div>
-            <div class="historial-meta">${h.fecha} · ${h.lugar} · ${fecha}</div>
+            <div class="historial-meta">${h.fecha} · ${h.lugar} · ${fechaGen}</div>
           </div>
           <span class="historial-foco">${focoLabels[h.foco] || 'Completo'}</span>
-          <span class="historial-ver">Ver →</span>
+          <span class="historial-ver" aria-hidden="true">Ver →</span>
         </div>`
     }).join('')
   }
 
   function verDesdeHistorial(id) {
-    const historial = getHistorial()
-    const entrada = historial.find(h => h.id === id)
+    const entrada = getHistorial().find(h => h.id === id)
     if (!entrada) return
     ocultar('form-section')
     ocultar('historial-wrap')
     renderizarInforme(entrada.nombre, entrada.fecha, entrada.lugar, entrada.secciones)
-    setTimeout(() => {
-      document.getElementById('informe').scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }, 100)
+    setTimeout(() => document.getElementById('informe').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100)
   }
 
-  // Mostrar usos restantes en el botón al cargar
   window.addEventListener('DOMContentLoaded', () => {
     const usos = getUsos()
     const restantes = LIMITE - usos.count
@@ -912,7 +744,7 @@
     if (restantes <= 0) {
       btn.disabled = true
       btn.textContent = `Límite alcanzado — volvé en ${horasRestantes()}hs`
-    } else if (restantes <= LIMITE) {
+    } else {
       btn.textContent = `✦ GENERAR MI INFORME NATAL ✦  (${restantes} restante${restantes === 1 ? '' : 's'})`
     }
     renderizarHistorial()
@@ -942,34 +774,20 @@
   function ocultar(id) { document.getElementById(id).style.display = 'none' }
   function getVal(id) { return document.getElementById(id).value.trim() }
 
-  // Parsea el texto completo en secciones usando los marcadores [CLAVE]
   function parsearSecciones(texto) {
     const resultado = {}
     SECCIONES.forEach(s => { resultado[s.key] = '' })
-
     const regex = /\[([A-ZÁÉÍÓÚ_]+)\]\s*/g
-    let match
-    let lastKey = null
-    let lastIndex = 0
-
+    let match, lastKey = null, lastIndex = 0
     while ((match = regex.exec(texto)) !== null) {
       const clave = match[1]
       const sec = SECCIONES.find(s => s.key === clave)
       if (!sec) continue
-
-      // Guardar contenido de la sección anterior
-      if (lastKey) {
-        resultado[lastKey] = texto.slice(lastIndex, match.index).trim()
-      }
+      if (lastKey) resultado[lastKey] = texto.slice(lastIndex, match.index).trim()
       lastKey = clave
       lastIndex = match.index + match[0].length
     }
-
-    // Última sección
-    if (lastKey) {
-      resultado[lastKey] = texto.slice(lastIndex).trim()
-    }
-
+    if (lastKey) resultado[lastKey] = texto.slice(lastIndex).trim()
     return resultado
   }
 
@@ -985,43 +803,37 @@
           <div class="i-pills">
             <span class="i-pill">📅 ${fecha}</span>
             <span class="i-pill">📍 ${lugar}</span>
-            
           </div>
         </div>
         ${SECCIONES.map(s => {
           const contenido = secciones[s.key] || ''
-          let bodyHtml
-
+          if (!contenido) return ''
           if (s.key === 'AFIRMACIONES') {
-            const items = contenido
-              .split('\n')
-              .filter(l => l.trim())
-              .map(l => `<div class="afirmacion">${l.replace(/^✦\s*/, '').trim()}</div>`)
-              .join('')
-            bodyHtml = items || `<div class="i-sec-body">${contenido}</div>`
-          } else {
-            const parrafos = contenido
-              .split(/\n\n+/)
-              .filter(p => p.trim())
-              .map(p => `<p>${p.trim()}</p>`)
-              .join('')
-            bodyHtml = `<div class="i-sec-body">${parrafos || contenido}</div>`
+            const items = contenido.split('\n').filter(l => l.trim())
+              .map(l => `<div class="afirmacion">${l.replace(/^✦\s*/, '').trim()}</div>`).join('')
+            return `
+              <section class="i-sec ${s.clase}" aria-label="${s.label}">
+                <button class="btn-copiar" onclick="copiarSeccion(this)" aria-label="Copiar sección ${s.label}">◈ Copiar</button>
+                <div class="i-sec-label" aria-hidden="true">${s.emoji} &nbsp; ${s.label.toUpperCase()}</div>
+                <h3>${s.label}</h3>
+                ${items || `<div class="i-sec-body">${contenido}</div>`}
+              </section>`
           }
-
+          const parrafos = contenido.split(/\n\n+/).filter(p => p.trim())
+            .map(p => `<p>${p.trim()}</p>`).join('')
           return `
-            <div class="i-sec ${s.clase}">
-              <button class="btn-copiar" onclick="copiarSeccion(this, '${s.key}')" data-key="${s.key}">◈ Copiar</button>
-              <div class="i-sec-label">${s.emoji} &nbsp; ${s.label.toUpperCase()}</div>
+            <section class="i-sec ${s.clase}" aria-label="${s.label}">
+              <button class="btn-copiar" onclick="copiarSeccion(this)" aria-label="Copiar sección ${s.label}">◈ Copiar</button>
+              <div class="i-sec-label" aria-hidden="true">${s.emoji} &nbsp; ${s.label.toUpperCase()}</div>
               <h3>${s.label}</h3>
-              ${s.key === 'AFIRMACIONES' ? bodyHtml : `<div class="i-sec-body">${contenido.split(/\n\n+/).filter(p=>p.trim()).map(p=>`<p>${p.trim()}</p>`).join('') || contenido}</div>`}
-            </div>`
+              <div class="i-sec-body">${parrafos || contenido}</div>
+            </section>`
         }).join('')}
         <div class="btn-actions">
-          <button class="btn-reset" onclick="resetear()">← Nuevo informe</button>
-          <button class="btn-pdf" onclick="descargarPDF()">↓ Descargar PDF</button>
+          <button class="btn-reset" onclick="resetear()" aria-label="Volver al formulario">← Nuevo informe</button>
+          <button class="btn-pdf" onclick="descargarPDF()" aria-label="Descargar informe en PDF">↓ Descargar PDF</button>
         </div>
-      </div>
-    `
+      </div>`
     mostrar('informe')
   }
 
@@ -1036,7 +848,6 @@
     const errBox = document.getElementById('err-box')
     errBox.style.display = 'none'
 
-    // Chequeo de límite local
     const usos = getUsos()
     if (usos.count >= LIMITE) {
       errBox.textContent = `Alcanzaste el límite de ${LIMITE} informes por día. Volvé en ${horasRestantes()} hora${horasRestantes() === 1 ? '' : 's'}.`
@@ -1054,34 +865,28 @@
     }
 
     ocultar('form-section')
+    ocultar('historial-wrap')
     document.getElementById('loading-section').style.display = 'block'
     document.getElementById('btn-gen').disabled = true
 
-    // Barra de progreso y timer
-    const ESTIMATED = 22 // segundos estimados
+    const ESTIMATED = 22
     const bar = document.getElementById('progress-bar')
     const timer = document.getElementById('progress-timer')
     let elapsed = 0
 
     const progressInterval = setInterval(() => {
       elapsed++
-      // Progreso que se frena cerca del 90% hasta que llega la respuesta
-      const pct = Math.min(90, (elapsed / ESTIMATED) * 100)
-      bar.style.width = pct + '%'
+      bar.style.width = Math.min(90, (elapsed / ESTIMATED) * 100) + '%'
       timer.textContent = elapsed + 's'
     }, 1000)
 
-    // Status rotativo
     let si = 0
     const statusInterval = setInterval(() => {
       si = (si + 1) % statuses.length
       document.getElementById('loading-status').textContent = statuses[si]
     }, 2500)
 
-    const clearAll = () => {
-      clearInterval(progressInterval)
-      clearInterval(statusInterval)
-    }
+    const clearAll = () => { clearInterval(progressInterval); clearInterval(statusInterval) }
 
     try {
       const res = await fetch(`${BACKEND_URL}/api/carta-natal`, {
@@ -1098,11 +903,9 @@
       const { texto } = await res.json()
       if (!texto) throw new Error('El servidor no devolvió contenido.')
 
-      // Completar barra al 100% antes de mostrar
       clearAll()
       bar.style.width = '100%'
       timer.textContent = elapsed + 's'
-
       await new Promise(r => setTimeout(r, 400))
 
       const secciones = parsearSecciones(texto)
@@ -1110,7 +913,6 @@
       guardarEnHistorial(nombre, fecha, lugar, foco, secciones)
       renderizarHistorial()
 
-      // Actualizar botón con usos restantes
       const usosActuales = getUsos()
       const restantes = LIMITE - usosActuales.count
       const btnGen = document.getElementById('btn-gen')
@@ -1123,23 +925,20 @@
 
       ocultar('loading-section')
       renderizarInforme(nombre, fecha, lugar, secciones)
-
-      // Scroll automático al informe
-      setTimeout(() => {
-        document.getElementById('informe').scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }, 100)
+      setTimeout(() => document.getElementById('informe').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100)
 
     } catch (err) {
       clearAll()
       ocultar('loading-section')
       mostrar('form-section')
+      renderizarHistorial()
       document.getElementById('btn-gen').disabled = false
       errBox.textContent = `Error: ${err.message}`
       errBox.style.display = 'block'
     }
   }
 
-  function copiarSeccion(btn, key) {
+  function copiarSeccion(btn) {
     const sec = btn.closest('.i-sec')
     const h3 = sec?.querySelector('h3')?.textContent?.trim() || ''
     const items = sec?.querySelectorAll('.i-sec-body p, .afirmacion')
@@ -1149,14 +948,10 @@
     } else {
       texto += sec?.querySelector('.i-sec-body')?.textContent?.trim() || ''
     }
-
     navigator.clipboard.writeText(texto.trim()).then(() => {
       btn.textContent = '✓ Copiado'
       btn.classList.add('copiado')
-      setTimeout(() => {
-        btn.textContent = '◈ Copiar'
-        btn.classList.remove('copiado')
-      }, 2000)
+      setTimeout(() => { btn.textContent = '◈ Copiar'; btn.classList.remove('copiado') }, 2000)
     }).catch(() => {
       btn.textContent = '✗ Error'
       setTimeout(() => { btn.textContent = '◈ Copiar' }, 2000)
@@ -1175,41 +970,27 @@
     const btn = document.querySelector('.btn-pdf')
     btn.textContent = '⏳ Generando PDF...'
     btn.disabled = true
-
     try {
       const { jsPDF } = window.jspdf
-      const informe = document.getElementById('informe')
-
-      const canvas = await html2canvas(informe, {
-        scale: 2,
-        useCORS: true,
+      const canvas = await html2canvas(document.getElementById('informe'), {
+        scale: 2, useCORS: true,
         backgroundColor: '#0e0b18',
-        logging: false,
-        windowWidth: 760,
+        logging: false, windowWidth: 760,
       })
-
       const imgData = canvas.toDataURL('image/jpeg', 0.92)
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
-
       const pageW = pdf.internal.pageSize.getWidth()
       const pageH = pdf.internal.pageSize.getHeight()
-      const imgW = pageW
-      const imgH = (canvas.height * imgW) / canvas.width
-
-      let posY = 0
-      let remaining = imgH
-
-      // Paginar si el informe es más largo que una página
+      const imgH = (canvas.height * pageW) / canvas.width
+      let posY = 0, remaining = imgH
       while (remaining > 0) {
-        pdf.addImage(imgData, 'JPEG', 0, posY === 0 ? 0 : posY, imgW, imgH)
+        pdf.addImage(imgData, 'JPEG', 0, posY === 0 ? 0 : posY, pageW, imgH)
         remaining -= pageH
         posY -= pageH
         if (remaining > 0) pdf.addPage()
       }
-
       const nombre = document.querySelector('.i-nombre')?.textContent?.trim() || 'carta-natal'
       pdf.save(`informe-${nombre.toLowerCase().replace(/\s+/g, '-')}.pdf`)
-
     } catch (err) {
       console.error(err)
       alert('Error al generar el PDF. Intentá de nuevo.')
@@ -1220,7 +1001,7 @@
   }
 </script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
 </html>
