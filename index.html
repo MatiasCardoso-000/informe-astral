@@ -967,7 +967,20 @@
       mostrar('form-section')
       renderizarHistorial()
       document.getElementById('btn-gen').disabled = false
-      errBox.textContent = `Error: ${err.message}`
+
+      // Mensajes de error amigables
+      let msg = err.message || ''
+      if (msg.includes('429') || msg.toLowerCase().includes('límite') || msg.toLowerCase().includes('limite')) {
+        msg = 'Alcanzaste el límite de consultas por hora. Esperá unos minutos e intentá de nuevo.'
+      } else if (msg.includes('500') || msg.includes('servidor')) {
+        msg = 'Hubo un problema al generar tu informe. Intentá de nuevo en un momento.'
+      } else if (msg.includes('fetch') || msg.includes('network') || msg.toLowerCase().includes('failed')) {
+        msg = 'No pudimos conectarnos. Verificá tu conexión a internet e intentá de nuevo.'
+      } else if (msg.includes('contenido')) {
+        msg = 'El informe no se generó correctamente. Intentá de nuevo.'
+      }
+
+      errBox.textContent = msg
       errBox.style.display = 'block'
     }
   }
