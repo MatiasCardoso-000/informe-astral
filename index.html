@@ -14,757 +14,779 @@
 <meta name="twitter:title" content="Carta Natal — De Raíz al Alma" />
 <meta name="twitter:description" content="Tu informe astrológico personalizado al instante." />
 <link rel="icon" type="image/png" href="/informe-astral.png" />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cinzel:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --gold: #c9a84c;
-    --gold-light: #e8c97a;
-    --gold-pale: rgba(201,168,76,0.12);
-    --bg: #0e0b18;
-    --surface: rgba(255,255,255,0.04);
-    --border: rgba(201,168,76,0.18);
-    --text: #e8e0f0;
-    --text-muted: rgba(232,224,240,0.55);
-    --text-dim: rgba(232,224,240,0.35);
+    --bg:       #08111f;
+    --bg2:      #0d1829;
+    --silver:   #94acd1;
+    --silver2:  #b4c8e1;
+    --text:     #eef2f7;
+    --text-mid: #dfe6f0;
+    --text-dim: rgba(180,200,225,0.45);
+    --text-off: rgba(148,172,209,0.28);
+    --border:   rgba(148,172,209,0.12);
+    --border2:  rgba(148,172,209,0.22);
+    --gold:     #c9a84c;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
     background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
+    color: var(--text-mid);
+    font-family: 'Newsreader', Georgia, serif;
     font-size: 16px;
     line-height: 1.7;
     min-height: 100vh;
   }
 
-  #stars {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-  }
-
-  .star {
-    position: absolute;
-    border-radius: 50%;
-    background: white;
-    animation: twinkle var(--d) ease-in-out infinite;
-    animation-delay: var(--dl);
-  }
-
-  @keyframes twinkle {
-    0%, 100% { opacity: var(--op); transform: scale(1); }
-    50% { opacity: 0.1; transform: scale(0.6); }
-  }
-
-  .wrap {
-    position: relative;
-    z-index: 1;
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 3rem 1.5rem 6rem;
-  }
-
-  .header { text-align: center; margin-bottom: 3rem; }
-
-  .eyebrow {
-    font-family: 'Cinzel', serif;
-    font-size: 10px;
-    letter-spacing: 0.32em;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-  }
-
-  .header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.9rem, 5vw, 3rem);
-    font-weight: 700;
-    color: #f5f0e8;
-    line-height: 1.12;
-    margin-bottom: 0.8rem;
-  }
-
-  .header h1 em { font-style: italic; color: var(--gold); }
-
-  .header p {
-    font-size: 15px;
-    color: var(--text-muted);
-    max-width: 480px;
-    margin: 0 auto;
-    line-height: 1.75;
-  }
-
-  .ornament {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    justify-content: center;
-    margin: 1.2rem 0;
-  }
-  .ornament::before, .ornament::after {
+  /* ── GRAIN ── */
+  body::before {
     content: '';
-    width: 70px;
-    height: 1px;
-    background: rgba(201,168,76,0.35);
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0;
   }
-  .ornament span { color: var(--gold); font-size: 0.9rem; letter-spacing: 0.3em; }
 
-  .features {
+  /* ── GLOW ── */
+  body::after {
+    content: '';
+    position: fixed;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(148,172,209,0.05) 0%, transparent 70%);
+    top: -150px; right: -100px;
+    pointer-events: none; z-index: 0;
+  }
+
+  .page { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+  /* ════════════════════════════════
+     FORMULARIO — VISTA PRINCIPAL
+  ════════════════════════════════ */
+
+  /* Header */
+  .hdr {
+    padding: 3.5rem 0 2rem;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-    margin-bottom: 2.5rem;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 2rem;
+    border-bottom: 1px solid var(--border);
   }
 
-  @media (max-width: 600px) { .features { grid-template-columns: 1fr 1fr; } }
-
-  .feat {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 1.2rem 1rem;
-    text-align: center;
+  .brand {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.28em;
+    color: var(--text-off);
+    text-transform: uppercase;
+    margin-bottom: 1.4rem;
   }
 
-  .feat-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
+  .hdr-h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.6rem, 6vw, 4.8rem);
+    font-weight: 900;
+    line-height: 0.93;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  .hdr-h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--silver);
+    display: block;
+    font-size: 0.68em;
+    line-height: 1.35;
+    margin-top: 0.25em;
+  }
+
+  .hdr-right { text-align: right; }
+
+  .hdr-tagline {
+    font-size: 12.5px;
+    color: var(--text-off);
+    line-height: 1.85;
+    font-style: italic;
+    max-width: 180px;
+    margin-left: auto;
+  }
+
+  .hdr-deco {
+    font-family: 'Playfair Display', serif;
+    font-size: 4.5rem;
+    font-weight: 900;
+    color: rgba(148,172,209,0.06);
+    line-height: 1;
+    text-align: right;
+    margin-top: 0.5rem;
+  }
+
+  /* Body 2col */
+  .body-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    min-height: 520px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  @media (max-width: 700px) {
+    .body-grid { grid-template-columns: 1fr; }
+    .body-right { border-left: none; border-top: 1px solid var(--border); }
+    .hdr { grid-template-columns: 1fr; }
+    .hdr-right { display: none; }
+  }
+
+  /* Columna izquierda */
+  .body-left { padding: 2.8rem 0 2.8rem; border-right: 1px solid var(--border); padding-right: 3rem; }
+
+  .sec-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.28em;
+    color: var(--text-off);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    margin: 0 auto 0.7rem;
+    gap: 1rem;
   }
+  .sec-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-  .feat-title {
-    font-family: 'Cinzel', serif;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    color: #f5f0e8;
-    margin-bottom: 0.4rem;
-  }
+  .field { margin-bottom: 1.7rem; }
 
-  .feat-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
-
-  .form-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 2.5rem;
-    backdrop-filter: blur(10px);
-  }
-
-  .card-title {
-    font-family: 'Cinzel', serif;
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    color: var(--gold);
-    margin-bottom: 1.8rem;
-  }
-
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.2rem;
-  }
-
-  @media (max-width: 520px) { .form-grid { grid-template-columns: 1fr; } }
-
-  .field { display: flex; flex-direction: column; gap: 6px; }
-  .field.full { grid-column: 1 / -1; }
-
-  label {
-    font-family: 'Cinzel', serif;
+  .field label {
+    font-family: 'DM Mono', monospace;
     font-size: 9px;
-    letter-spacing: 0.18em;
-    color: var(--text-dim);
+    color: var(--text-off);
+    letter-spacing: 0.15em;
     text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.45rem;
   }
 
-  input, select {
-    background: rgba(255,255,255,0.055);
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    padding: 0.7rem 0.9rem;
-    color: #f0eaf8;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    outline: none;
+  .field input, .field select {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border2);
     width: 100%;
-    transition: border-color 0.2s;
+    padding: 0.55rem 0;
+    color: var(--text);
+    font-family: 'Newsreader', serif;
+    font-size: 1.05rem;
+    outline: none;
+    transition: border-color 0.25s;
     appearance: none;
   }
 
-  input:focus, select:focus { border-color: rgba(201,168,76,0.55); }
-  input::placeholder { color: var(--text-dim); }
-  select option { background: #1a1230; color: #f0eaf8; }
+  .field input:focus, .field select:focus { border-bottom-color: var(--silver); }
+  .field input::placeholder { color: rgba(148,172,209,0.18); font-style: italic; }
+  .field select { cursor: pointer; }
+  .field select option { background: var(--bg2); color: var(--text); }
+  .field input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5) sepia(0.2); }
 
-  .hora-note {
-    font-size: 11px;
-    color: var(--text-dim);
-    margin-top: 3px;
-    font-style: italic;
+  .field-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: rgba(148,172,209,0.22);
+    letter-spacing: 0.05em;
+    margin-top: 4px;
   }
+
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
 
   .btn-gen {
+    margin-top: 2.5rem;
     width: 100%;
-    padding: 1rem;
-    background: linear-gradient(135deg, #b8913e, #d4a94e, #c9a84c);
-    color: #0e0b18;
-    border: none;
-    border-radius: 8px;
-    font-family: 'Cinzel', serif;
-    font-size: 11.5px;
-    letter-spacing: 0.22em;
-    font-weight: 600;
+    padding: 1rem 1.5rem;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border2);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
     cursor: pointer;
-    margin-top: 1.5rem;
-    transition: opacity 0.2s, transform 0.1s;
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
+  .btn-gen:hover { background: rgba(148,172,209,0.06); border-color: var(--silver); color: var(--silver2); }
+  .btn-gen:disabled { opacity: 0.35; cursor: not-allowed; }
+  .btn-gen-arrow { font-size: 1rem; color: var(--text-off); transition: transform 0.25s; }
+  .btn-gen:hover .btn-gen-arrow { transform: translateX(5px); color: var(--silver); }
 
-  .btn-gen:hover { opacity: 0.88; }
-  .btn-gen:active { transform: scale(0.99); }
-  .btn-gen:disabled { opacity: 0.4; cursor: not-allowed; }
-
-  .err {
-    background: rgba(220,50,50,0.1);
-    border: 1px solid rgba(220,50,50,0.3);
-    border-radius: 8px;
-    padding: 0.85rem 1rem;
+  .err-box {
+    margin-top: 0.9rem;
+    padding: 0.75rem 1rem;
+    border-left: 2px solid rgba(220,80,80,0.5);
+    background: rgba(220,80,80,0.06);
     color: #f08080;
-    font-size: 13.5px;
-    margin-top: 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
     line-height: 1.55;
     display: none;
   }
 
-  .loading { text-align: center; padding: 4rem 2rem; display: none; }
+  /* Columna derecha */
+  .body-right { padding: 2.8rem 0 2.8rem 3rem; display: flex; flex-direction: column; }
 
-  .zodiac-spin {
-    width: 64px; height: 64px;
-    margin: 0 auto 1.5rem;
-    position: relative;
-  }
-
-  .zodiac-spin::before {
-    content: '✦';
-    position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.6rem; color: var(--gold);
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-
-  .zodiac-spin::after {
-    content: '';
-    position: absolute; inset: 0;
-    border: 1.5px solid rgba(201,168,76,0.2);
-    border-top-color: var(--gold);
-    border-radius: 50%;
-    animation: spin 1.2s linear infinite;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(0.85); } }
-
-  .loading h3 { font-family: 'Playfair Display', serif; font-size: 1.35rem; color: #f5f0e8; margin-bottom: 0.5rem; }
-  .loading p { font-size: 14px; color: var(--text-muted); font-style: italic; }
-
-  .progress-bar-wrap {
-    width: 260px; height: 3px;
-    background: rgba(201,168,76,0.15);
-    border-radius: 100px;
-    margin: 1.5rem auto 0;
-    overflow: hidden;
-  }
-  .progress-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #b8913e, #e8c97a);
-    border-radius: 100px;
-    width: 0%;
-    transition: width 0.8s ease;
-  }
-  .progress-timer {
-    font-family: 'Cinzel', serif;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    color: rgba(201,168,76,0.5);
-    margin-top: 0.8rem;
-  }
-
-  #informe { display: none; }
-  .informe-wrap { animation: fadeUp 0.5s ease; }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(14px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .i-cover {
-    background: linear-gradient(135deg, #1c0d38 0%, #2d1555 100%);
-    border: 1px solid rgba(201,168,76,0.3);
-    border-radius: 14px;
-    padding: 3rem 2rem;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .i-cover::before {
-    content: '✦';
-    position: absolute; top: 1.5rem; right: 2rem;
-    font-size: 5rem; opacity: 0.05;
-    color: var(--gold); pointer-events: none;
-  }
-
-  .i-cover-tag {
-    font-family: 'Cinzel', serif;
-    font-size: 9px; letter-spacing: 0.3em;
-    color: var(--gold); margin-bottom: 0.7rem;
-  }
-
-  .i-cover h2 {
+  .quote {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(1.4rem, 4vw, 2rem);
-    color: #f5f0e8; font-weight: 700; margin-bottom: 0.3rem;
+    font-style: italic;
+    font-size: 1.15rem;
+    line-height: 1.65;
+    color: var(--text-dim);
+    border-left: 1px solid var(--border2);
+    padding-left: 1.4rem;
+    margin-bottom: 2.5rem;
   }
 
-  .i-nombre {
+  .feats { list-style: none; flex: 1; }
+
+  .feat {
+    display: flex;
+    align-items: baseline;
+    gap: 1.2rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid rgba(148,172,209,0.07);
+  }
+  .feat:first-child { border-top: 1px solid rgba(148,172,209,0.07); }
+
+  .feat-n {
     font-family: 'Playfair Display', serif;
-    font-style: italic; color: var(--gold);
-    font-size: 1.3rem; margin-bottom: 1.2rem;
+    font-size: 11px;
+    color: rgba(148,172,209,0.28);
+    flex-shrink: 0; min-width: 18px;
   }
 
-  .i-pills { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.5rem; }
+  .feat-title { display: block; font-size: 14px; color: rgba(238,242,247,0.8); margin-bottom: 2px; }
+  .feat-desc { font-size: 12.5px; color: rgba(148,172,209,0.38); line-height: 1.5; }
 
-  .i-pill {
-    background: rgba(201,168,76,0.1);
-    border: 1px solid rgba(201,168,76,0.2);
-    border-radius: 100px; padding: 3px 13px;
-    font-family: 'Cinzel', serif; font-size: 9px;
-    letter-spacing: 0.1em; color: rgba(232,224,240,0.65);
+  /* Footer strip */
+  .strip {
+    border-top: 1px solid var(--border);
+    padding: 1.2rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  .i-sec {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 11px; padding: 2rem;
-    margin-bottom: 1.1rem;
-    position: relative; overflow: hidden;
+  .strip-zodiac {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    color: rgba(148,172,209,0.15);
+    letter-spacing: 0.3em;
   }
 
-  .i-sec::before {
-    content: '';
-    position: absolute; top: 0; left: 0;
-    width: 3px; height: 100%;
+  .strip-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: rgba(148,172,209,0.15);
+    letter-spacing: 0.1em;
   }
 
-  .i-sec.sol::before { background: #d4a94e; }
-  .i-sec.luna::before { background: #7a9fcc; }
-  .i-sec.asc::before { background: #9f7acc; }
-  .i-sec.amor::before { background: #cc7a9f; }
-  .i-sec.mision::before { background: #7acc9f; }
-  .i-sec.talentos::before { background: #cc9f7a; }
-  .i-sec.mensaje::before { background: linear-gradient(to bottom, #d4a94e, #cc7a9f); }
-  .i-sec.afirmaciones::before { background: #c9a84c; }
-
-  .i-sec-label {
-    font-family: 'Cinzel', serif; font-size: 9px;
-    letter-spacing: 0.25em; color: var(--gold); margin-bottom: 0.3rem;
+  /* ════════════════════════════════
+     HISTORIAL
+  ════════════════════════════════ */
+  .historial-wrap {
+    margin-top: 2rem;
+    display: none;
   }
-
-  .i-sec h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem; font-weight: 600;
-    color: #f5f0e8; margin-bottom: 1rem;
-  }
-
-  .i-sec-body {
-    font-size: 15px; line-height: 1.85;
-    color: rgba(232,224,240,0.75);
-  }
-
-  .i-sec-body p { margin-bottom: 0.9rem; }
-
-  .afirmacion {
-    border-left: 2px solid var(--gold);
-    padding: 0.65rem 1rem; margin-bottom: 0.7rem;
-    background: rgba(201,168,76,0.06);
-    border-radius: 0 6px 6px 0;
-    font-style: italic; font-size: 14.5px;
-    color: rgba(232,224,240,0.8); line-height: 1.65;
-  }
-
-  .btn-reset {
-    background: transparent;
-    border: 1px solid rgba(201,168,76,0.3);
-    color: rgba(201,168,76,0.75);
-    padding: 0.65rem 1.6rem; border-radius: 7px;
-    font-family: 'Cinzel', serif; font-size: 10px;
-    letter-spacing: 0.15em; cursor: pointer;
-    transition: all 0.2s;
-  }
-  .btn-reset:hover { background: rgba(201,168,76,0.08); border-color: rgba(201,168,76,0.5); }
-
-  .btn-pdf {
-    background: rgba(201,168,76,0.12);
-    border: 1px solid rgba(201,168,76,0.4);
-    color: var(--gold); padding: 0.65rem 1.6rem;
-    border-radius: 7px; font-family: 'Cinzel', serif;
-    font-size: 10px; letter-spacing: 0.15em;
-    cursor: pointer; transition: all 0.2s;
-  }
-  .btn-pdf:hover { background: rgba(201,168,76,0.22); }
-
-  .btn-actions {
-    display: flex; gap: 0.8rem;
-    justify-content: center;
-    margin-top: 2rem; flex-wrap: wrap;
-  }
-
-  .btn-copiar {
-    position: absolute; top: 1.2rem; right: 1.2rem;
-    background: rgba(201,168,76,0.18);
-    border: 1px solid rgba(201,168,76,0.5);
-    border-radius: 6px; padding: 6px 14px;
-    font-family: 'Cinzel', serif; font-size: 9px;
-    letter-spacing: 0.15em; color: var(--gold);
-    cursor: pointer; transition: all 0.2s;
-    display: flex; align-items: center; gap: 5px;
-    font-weight: 600;
-  }
-  .btn-copiar:hover { background: rgba(201,168,76,0.32); border-color: var(--gold); color: #f5e8c0; }
-  .btn-copiar.copiado { color: #7acc9f; border-color: rgba(122,204,159,0.6); background: rgba(122,204,159,0.15); }
-
-  /* ─── HISTORIAL ─── */
-  .historial-wrap { margin-top: 2rem; }
 
   .historial-titulo {
-    font-family: 'Cinzel', serif; font-size: 10px;
-    letter-spacing: 0.25em; color: var(--gold);
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.28em;
+    color: var(--text-off);
+    text-transform: uppercase;
     margin-bottom: 1rem;
-    display: flex; align-items: center; gap: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
-  .historial-titulo::after {
-    content: ''; flex: 1; height: 1px;
-    background: rgba(201,168,76,0.2);
-  }
+  .historial-titulo::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-  .historial-lista { display: flex; flex-direction: column; gap: 0.6rem; }
+  .historial-lista { display: flex; flex-direction: column; gap: 0.5rem; }
 
   .historial-item {
-    background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 8px; padding: 0.85rem 1.2rem;
-    display: flex; align-items: center;
+    border-left: 2px solid rgba(148,172,209,0.2);
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    align-items: center;
     justify-content: space-between;
-    cursor: pointer; transition: all 0.2s; gap: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    gap: 1rem;
   }
-  .historial-item:hover { border-color: rgba(201,168,76,0.4); background: rgba(255,255,255,0.07); }
+  .historial-item:hover { border-color: var(--border2); border-left-color: var(--silver); background: rgba(148,172,209,0.03); }
 
   .historial-info { flex: 1; min-width: 0; }
 
   .historial-nombre {
     font-family: 'Playfair Display', serif;
-    font-size: 0.95rem; font-style: italic;
-    color: #f5f0e8; white-space: nowrap;
-    overflow: hidden; text-overflow: ellipsis;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  .historial-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .historial-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-off);
+    margin-top: 2px;
+    letter-spacing: 0.05em;
+  }
 
   .historial-foco {
-    font-family: 'Cinzel', serif; font-size: 8px;
-    letter-spacing: 0.1em; color: var(--gold);
-    background: rgba(201,168,76,0.1);
-    border: 1px solid rgba(201,168,76,0.2);
-    border-radius: 100px; padding: 2px 8px;
-    white-space: nowrap; flex-shrink: 0;
-  }
-
-  .historial-ver {
-    font-family: 'Cinzel', serif; font-size: 8px;
-    letter-spacing: 0.12em; color: rgba(201,168,76,0.6);
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: var(--silver);
+    border: 1px solid rgba(148,172,209,0.2);
+    padding: 2px 8px;
+    white-space: nowrap;
     flex-shrink: 0;
   }
 
-  /* ─── PRINT ─── */
+  .historial-ver {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-off);
+    flex-shrink: 0;
+  }
+
+  /* ════════════════════════════════
+     LOADING
+  ════════════════════════════════ */
+  .loading {
+    display: none;
+    text-align: center;
+    padding: 5rem 2rem;
+  }
+
+  .loading-ring {
+    width: 56px; height: 56px;
+    border: 1px solid rgba(148,172,209,0.15);
+    border-top-color: var(--silver);
+    border-radius: 50%;
+    animation: spin 1.2s linear infinite;
+    margin: 0 auto 1.5rem;
+    position: relative;
+  }
+
+  .loading-ring::before {
+    content: '✦';
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    color: var(--silver);
+    opacity: 0.4;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pulse { 0%,100%{opacity:0.4;} 50%{opacity:0.9;} }
+
+  .loading h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+    font-weight: 400;
+  }
+
+  .loading p {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-off);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .progress-wrap {
+    width: 200px; height: 1px;
+    background: rgba(148,172,209,0.1);
+    margin: 1.5rem auto 0;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--silver);
+    width: 0%;
+    transition: width 0.8s ease;
+  }
+
+  .progress-timer {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: rgba(148,172,209,0.25);
+    margin-top: 0.6rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* ════════════════════════════════
+     INFORME
+  ════════════════════════════════ */
+  #informe { display: none; }
+
+  .informe-wrap { animation: fadeUp 0.5s ease; }
+
+  @keyframes fadeUp { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+  /* Cover del informe */
+  .i-cover {
+    padding: 4rem 0 3rem;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .i-cover-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: var(--text-off);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .i-cover-nombre {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 900;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .i-cover-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--silver);
+    letter-spacing: 0.05em;
+  }
+
+  .i-cover-meta {
+    text-align: right;
+  }
+
+  .i-cover-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    color: var(--text-off);
+    letter-spacing: 0.12em;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  /* Secciones */
+  .i-sec {
+    padding: 2.2rem 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .i-sec-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .i-sec-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    color: var(--text-off);
+    flex-shrink: 0;
+  }
+
+  .i-sec-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  .i-sec-sym {
+    font-family: 'Newsreader', serif;
+    font-size: 1.2rem;
+    color: rgba(148,172,209,0.2);
+    flex-shrink: 0;
+  }
+
+  .i-sec-body {
+    font-size: 15.5px;
+    line-height: 1.85;
+    color: rgba(223,230,240,0.7);
+    padding-left: 2.5rem;
+  }
+
+  .i-sec-body p { margin-bottom: 1rem; }
+
+  .afirmacion {
+    padding: 0.7rem 1.2rem;
+    margin-bottom: 0.6rem;
+    border-left: 1px solid var(--border2);
+    font-style: italic;
+    font-size: 15px;
+    color: rgba(180,200,225,0.65);
+    line-height: 1.65;
+    padding-left: 2.5rem;
+  }
+
+  /* Botón copiar */
+  .btn-copiar {
+    position: absolute;
+    top: 2.2rem; right: 0;
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 4px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: var(--text-off);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .btn-copiar:hover { border-color: var(--silver); color: var(--silver2); }
+  .btn-copiar.copiado { color: #7acc9f; border-color: rgba(122,204,159,0.4); }
+
+  /* Acciones del informe */
+  .i-actions {
+    display: flex;
+    gap: 1rem;
+    padding: 2.5rem 0;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .btn-accion {
+    background: transparent;
+    border: 1px solid var(--border2);
+    padding: 0.65rem 1.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .btn-accion:hover { border-color: var(--silver); color: var(--silver2); }
+  .btn-accion.primary { border-color: rgba(148,172,209,0.35); }
+
+  /* ════════════════════════════════
+     PRINT
+  ════════════════════════════════ */
   @media print {
     @page { margin: 2cm; size: A4; }
-    #stars, .header, .features, #form-section,
-    .loading, .btn-actions, .historial-wrap,
-    .btn-copiar { display: none !important; }
-    body { background: white; color: #1a1520; font-size: 13px; }
-    .wrap { padding: 0; max-width: 100%; }
+    body::before, body::after { display: none; }
+    .hdr, .body-grid, .strip, .loading,
+    .historial-wrap, .i-actions, .btn-copiar { display: none !important; }
+    body { background: white; color: #1a1a2e; }
     #informe { display: block !important; }
-    .i-cover {
-      background: #1c0d38 !important;
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
-      border-radius: 8px; padding: 2rem; margin-bottom: 1.2rem;
-    }
-    .i-cover h2, .i-nombre { color: #f5f0e8 !important; }
-    .i-cover-tag, .i-pill { color: #c9a84c !important; }
-    .i-sec {
-      background: #f9f6f0 !important;
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
-      border: 1px solid #e0d5b8 !important;
-      border-radius: 6px; padding: 1.4rem;
-      margin-bottom: 0.8rem; page-break-inside: avoid;
-    }
-    .i-sec::before { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .i-sec-label { color: #b8913e !important; }
-    .i-sec h3 { color: #1a1520 !important; }
-    .i-sec-body, .i-sec-body p { color: #3a3545 !important; }
-    .afirmacion {
-      background: #faf5e8 !important;
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
-      border-left-color: #c9a84c !important;
-      color: #3a3545 !important;
-    }
-    .informe-wrap { animation: none !important; }
+    .i-cover { border-bottom: 1px solid #c0c8d8; }
+    .i-cover-nombre { color: #1a1a2e; }
+    .i-cover-tag, .i-cover-pill { color: #6a7a9a; }
+    .i-cover-titulo { color: #3a5080; }
+    .i-sec { border-bottom: 1px solid #e0e4ec; page-break-inside: avoid; }
+    .i-sec-title { color: #1a1a2e; }
+    .i-sec-body, .i-sec-body p { color: #3a3a5a; }
+    .i-sec-num, .i-sec-sym { color: #9aaccb; }
+    .afirmacion { border-left-color: #9aaccb; color: #5a6a8a; }
+    .informe-wrap { animation: none; }
   }
 </style>
 </head>
 <body>
 
-<div id="stars" aria-hidden="true"></div>
+<div class="page">
 
-<div class="wrap">
-
-  <header class="header">
-    <div class="eyebrow">De Raíz al Alma</div>
-    <h1>Tu Carta Natal,<br><em>interpretada con precisión</em></h1>
-    <div class="ornament" aria-hidden="true"><span>✦ ✦ ✦</span></div>
-    <p>No es predicción. Es claridad emocional aplicada a tu vida real.<br>Ingresá tus datos y recibí un informe personalizado al instante.</p>
+  <!-- ══ HEADER ══ -->
+  <header class="hdr" id="hdr">
+    <div>
+      <div class="brand">De Raíz al Alma &nbsp;·&nbsp; Cartas Natales</div>
+      <h1 class="hdr-h1">
+        Tu mapa<br>del cielo.
+        <em>Interpretado con profundidad.</em>
+      </h1>
+    </div>
+    <div class="hdr-right" aria-hidden="true">
+      <div class="hdr-tagline">No es predicción.<br>Es claridad emocional<br>aplicada a tu vida real.</div>
+      <div class="hdr-deco">✦</div>
+    </div>
   </header>
 
-  <section class="features" aria-label="Características del servicio">
-    <div class="feat">
-      <div class="feat-icon" style="background:rgba(59,108,220,0.2);" aria-hidden="true">⚡</div>
-      <div class="feat-title">Instantáneo</div>
-      <div class="feat-desc">Tu informe en segundos, no en 48hs</div>
-    </div>
-    <div class="feat">
-      <div class="feat-icon" style="background:rgba(201,168,76,0.2);" aria-hidden="true">✦</div>
-      <div class="feat-title">Personalizado</div>
-      <div class="feat-desc">Escrito para vos, no genérico</div>
-    </div>
-    <div class="feat">
-      <div class="feat-icon" style="background:rgba(150,60,180,0.2);" aria-hidden="true">◎</div>
-      <div class="feat-title">Profesional</div>
-      <div class="feat-desc">Interpretación profunda y detallada</div>
-    </div>
-    <div class="feat">
-      <div class="feat-icon" style="background:rgba(26,92,58,0.3);" aria-hidden="true">♾</div>
-      <div class="feat-title">Sin límites</div>
-      <div class="feat-desc">Generá cuantos informes quieras</div>
-    </div>
-  </section>
-
+  <!-- ══ FORM ══ -->
   <div id="form-section">
-    <div class="form-card">
-      <div class="card-title" aria-hidden="true">✦ &nbsp; Tus datos de nacimiento</div>
-      <form class="form-grid" onsubmit="event.preventDefault(); generarInforme()">
+    <div class="body-grid">
 
-        <div class="field full">
-          <label for="nombre">Nombre completo</label>
-          <input type="text" id="nombre" name="nombre" placeholder="Tu nombre y apellido" autocomplete="given-name" required />
-        </div>
+      <div class="body-left">
+        <div class="sec-label">Tus datos de nacimiento</div>
 
-        <div class="field">
-          <label for="fecha">Fecha de nacimiento</label>
-          <input type="date" id="fecha" name="fecha" autocomplete="bday" required min="1900-01-01" />
-        </div>
+        <form onsubmit="event.preventDefault(); generarInforme()">
+          <div class="field">
+            <label for="nombre">Nombre completo</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre y apellido" autocomplete="given-name" required />
+          </div>
 
-        <div class="field">
-          <label for="hora">Hora de nacimiento</label>
-          <input type="time" id="hora" name="hora" aria-describedby="hora-nota" />
-          <div class="hora-note" id="hora-nota">Opcional — mejora la precisión del Ascendente</div>
-        </div>
+          <div class="row2">
+            <div class="field">
+              <label for="fecha">Fecha de nacimiento</label>
+              <input type="date" id="fecha" name="fecha" autocomplete="bday" required min="1900-01-01" />
+            </div>
+            <div class="field">
+              <label for="hora">Hora <span style="color:rgba(148,172,209,0.22);font-size:8px;letter-spacing:0;font-family:sans-serif">(opcional)</span></label>
+              <input type="time" id="hora" name="hora" aria-describedby="hora-nota" />
+              <div class="field-note" id="hora-nota">Mejora la precisión del Ascendente</div>
+            </div>
+          </div>
 
-        <div class="field full">
-          <label for="lugar">Ciudad y país de nacimiento</label>
-          <input type="text" id="lugar" name="lugar" placeholder="Ej: Buenos Aires, Argentina" required />
-        </div>
+          <div class="field">
+            <label for="lugar">Ciudad y país de nacimiento</label>
+            <input type="text" id="lugar" name="lugar" placeholder="Ej: Buenos Aires, Argentina" required />
+          </div>
 
-        <div class="field">
-          <label for="foco">¿Qué querés explorar?</label>
-          <select id="foco" name="foco">
-            <option value="completo">Informe completo</option>
-            <option value="amor">Amor y vínculos</option>
-            <option value="mision">Misión y carrera</option>
-            <option value="emocional">Mundo emocional</option>
-            <option value="talentos">Talentos y dones</option>
-          </select>
-        </div>
+          <div class="row2">
+            <div class="field">
+              <label for="foco">Enfoque</label>
+              <select id="foco" name="foco">
+                <option value="completo">Informe completo</option>
+                <option value="amor">Amor y vínculos</option>
+                <option value="mision">Misión y carrera</option>
+                <option value="emocional">Mundo emocional</option>
+                <option value="talentos">Talentos y dones</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="nivel">Lenguaje</label>
+              <select id="nivel" name="nivel">
+                <option value="accesible">Accesible</option>
+                <option value="intermedio">Intermedio</option>
+                <option value="tecnico">Técnico</option>
+              </select>
+            </div>
+          </div>
 
-        <div class="field">
-          <label for="nivel">Nivel de lenguaje</label>
-          <select id="nivel" name="nivel">
-            <option value="accesible">Accesible (sin tecnicismos)</option>
-            <option value="intermedio">Intermedio</option>
-            <option value="tecnico">Técnico (con posiciones)</option>
-          </select>
-        </div>
-
-        <div class="field full">
           <button class="btn-gen" id="btn-gen" type="submit" aria-label="Generar mi informe natal">
-            ✦ &nbsp; GENERAR MI INFORME NATAL &nbsp; ✦
+            <span>Generar mi informe natal</span>
+            <span class="btn-gen-arrow" aria-hidden="true">→</span>
           </button>
-          <div class="err" id="err-box" role="alert" aria-live="assertive"></div>
-        </div>
+          <div class="err-box" id="err-box" role="alert" aria-live="assertive"></div>
+        </form>
+      </div>
 
-      </form>
+      <div class="body-right" aria-hidden="true">
+        <blockquote class="quote">
+          "La carta natal no dice lo que te va a pasar.<br>Dice quién sos cuando nadie te mira."
+        </blockquote>
+
+        <ul class="feats">
+          <li class="feat">
+            <span class="feat-n">01</span>
+            <div>
+              <span class="feat-title">Instantáneo</span>
+              <span class="feat-desc">Tu informe en segundos, no en 48hs de espera</span>
+            </div>
+          </li>
+          <li class="feat">
+            <span class="feat-n">02</span>
+            <div>
+              <span class="feat-title">Personalizado</span>
+              <span class="feat-desc">Escrito para vos, no con frases genéricas</span>
+            </div>
+          </li>
+          <li class="feat">
+            <span class="feat-n">03</span>
+            <div>
+              <span class="feat-title">Profesional</span>
+              <span class="feat-desc">Sol, Luna, Ascendente y más — en profundidad</span>
+            </div>
+          </li>
+          <li class="feat">
+            <span class="feat-n">04</span>
+            <div>
+              <span class="feat-title">Descargable</span>
+              <span class="feat-desc">PDF completo para guardar y releer</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Historial -->
+    <div class="historial-wrap" id="historial-wrap" aria-label="Informes anteriores">
+      <div class="historial-titulo">Informes anteriores</div>
+      <div class="historial-lista" id="historial-lista"></div>
     </div>
   </div>
 
-  <!-- HISTORIAL -->
-  <div class="historial-wrap" id="historial-wrap" style="display:none" aria-label="Informes anteriores">
-    <div class="historial-titulo">✦ &nbsp; INFORMES ANTERIORES</div>
-    <div class="historial-lista" id="historial-lista"></div>
-  </div>
-
-  <!-- LOADING -->
+  <!-- ══ LOADING ══ -->
   <div class="loading" id="loading-section" role="status" aria-live="polite">
-    <div class="zodiac-spin" aria-hidden="true"></div>
+    <div class="loading-ring" aria-hidden="true"></div>
     <h3>Leyendo tu cielo natal...</h3>
     <p id="loading-status" aria-atomic="true">Calculando posiciones planetarias</p>
-    <div class="progress-bar-wrap" aria-hidden="true">
-      <div class="progress-bar-fill" id="progress-bar"></div>
+    <div class="progress-wrap" aria-hidden="true">
+      <div class="progress-fill" id="progress-bar"></div>
     </div>
     <div class="progress-timer" id="progress-timer" aria-hidden="true">0s</div>
   </div>
 
-  <!-- INFORME -->
+  <!-- ══ INFORME ══ -->
   <main id="informe" aria-label="Informe astrológico"></main>
+
+  <!-- ══ STRIP ══ -->
+  <footer class="strip" aria-hidden="true">
+    <div class="strip-zodiac">♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓</div>
+    <div class="strip-copy">De Raíz al Alma · 2025</div>
+  </footer>
 
 </div>
 
 <script>
-  const starsEl = document.getElementById('stars')
-  for (let i = 0; i < 90; i++) {
-    const s = document.createElement('div')
-    s.className = 'star'
-    const sz = Math.random() * 2 + 0.4
-    s.style.cssText = `width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${2+Math.random()*5}s;--dl:${Math.random()*5}s;--op:${0.25+Math.random()*0.55}`
-    starsEl.appendChild(s)
-  }
-
-  // ── Configuración ── cambiá estos valores para personalizar
   const BACKEND_URL = 'https://informe-astral.fly.dev'
   const LIMITE = 3
   const STORAGE_KEY = 'cn_usos'
   const HISTORIAL_KEY = 'cn_historial'
   const HISTORIAL_MAX = 5
 
-  const focoLabels = {
-    completo: 'Completo', amor: 'Amor', mision: 'Misión',
-    emocional: 'Emocional', talentos: 'Talentos'
-  }
-
-  function getUsos() {
-    try {
-      const data = JSON.parse(localStorage.getItem(STORAGE_KEY))
-      if (!data) return { count: 0, timestamp: Date.now() }
-      if (Date.now() - data.timestamp > 24 * 60 * 60 * 1000) {
-        localStorage.removeItem(STORAGE_KEY)
-        return { count: 0, timestamp: Date.now() }
-      }
-      return data
-    } catch { return { count: 0, timestamp: Date.now() } }
-  }
-
-  function registrarUso() {
-    const data = getUsos()
-    data.count++
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
-  }
-
-  function horasRestantes() {
-    try {
-      const data = JSON.parse(localStorage.getItem(STORAGE_KEY))
-      if (!data) return 0
-      const ms = (24 * 60 * 60 * 1000) - (Date.now() - data.timestamp)
-      return Math.ceil(ms / (60 * 60 * 1000))
-    } catch { return 0 }
-  }
-
-  function getHistorial() {
-    try { return JSON.parse(localStorage.getItem(HISTORIAL_KEY)) || [] }
-    catch { return [] }
-  }
-
-  function guardarEnHistorial(nombre, fecha, lugar, foco, secciones) {
-    const historial = getHistorial()
-    historial.unshift({ id: Date.now(), nombre, fecha, lugar, foco: foco || 'completo', secciones, timestamp: Date.now() })
-    if (historial.length > HISTORIAL_MAX) historial.pop()
-    localStorage.setItem(HISTORIAL_KEY, JSON.stringify(historial))
-  }
-
-  function renderizarHistorial() {
-    const historial = getHistorial()
-    const wrap = document.getElementById('historial-wrap')
-    const lista = document.getElementById('historial-lista')
-    if (!historial.length) { wrap.style.display = 'none'; return }
-    wrap.style.display = 'block'
-    lista.innerHTML = historial.map(h => {
-      const fechaGen = new Date(h.timestamp).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' })
-      return `
-        <div class="historial-item" onclick="verDesdeHistorial(${h.id})" role="button" tabindex="0" aria-label="Ver informe de ${h.nombre}">
-          <div class="historial-info">
-            <div class="historial-nombre">${h.nombre}</div>
-            <div class="historial-meta">${h.fecha} · ${h.lugar} · ${fechaGen}</div>
-          </div>
-          <span class="historial-foco">${focoLabels[h.foco] || 'Completo'}</span>
-          <span class="historial-ver" aria-hidden="true">Ver →</span>
-        </div>`
-    }).join('')
-  }
-
-  function verDesdeHistorial(id) {
-    const entrada = getHistorial().find(h => h.id === id)
-    if (!entrada) return
-    ocultar('form-section')
-    ocultar('historial-wrap')
-    renderizarInforme(entrada.nombre, entrada.fecha, entrada.lugar, entrada.secciones)
-    setTimeout(() => document.getElementById('informe').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100)
-  }
-
-  window.addEventListener('DOMContentLoaded', () => {
-    // Bloquear fechas futuras en el input
-    const inputFecha = document.getElementById('fecha')
-    const hoyStr = new Date().toISOString().split('T')[0]
-    inputFecha.setAttribute('max', hoyStr)
-
-    const usos = getUsos()
-    const restantes = LIMITE - usos.count
-    const btn = document.getElementById('btn-gen')
-    if (restantes <= 0) {
-      btn.disabled = true
-      btn.textContent = `Límite alcanzado — volvé en ${horasRestantes()}hs`
-    } else {
-      btn.textContent = `✦ GENERAR MI INFORME NATAL ✦  (${restantes} restante${restantes === 1 ? '' : 's'})`
-    }
-    renderizarHistorial()
-  })
+  const focoLabels = { completo:'Completo', amor:'Amor', mision:'Misión', emocional:'Emocional', talentos:'Talentos' }
 
   const SECCIONES = [
-    { key: 'SOL',          label: 'El Sol',           clase: 'sol',          emoji: '☉' },
-    { key: 'LUNA',         label: 'La Luna',          clase: 'luna',         emoji: '☽' },
-    { key: 'ASCENDENTE',   label: 'El Ascendente',    clase: 'asc',          emoji: '↑' },
-    { key: 'AMOR',         label: 'Amor y Vínculos',  clase: 'amor',         emoji: '♀' },
-    { key: 'MISION',       label: 'Misión de Vida',   clase: 'mision',       emoji: '✦' },
-    { key: 'TALENTOS',     label: 'Talentos y Dones', clase: 'talentos',     emoji: '◈' },
-    { key: 'MENSAJE',      label: 'Carta del Alma',   clase: 'mensaje',      emoji: '❧' },
-    { key: 'AFIRMACIONES', label: 'Afirmaciones',     clase: 'afirmaciones', emoji: '✦' },
+    { key:'SOL',          label:'El Sol',           sym:'☉', n:'01' },
+    { key:'LUNA',         label:'La Luna',           sym:'☽', n:'02' },
+    { key:'ASCENDENTE',   label:'El Ascendente',     sym:'↑', n:'03' },
+    { key:'AMOR',         label:'Amor y Vínculos',   sym:'♀', n:'04' },
+    { key:'MISION',       label:'Misión de Vida',    sym:'✦', n:'05' },
+    { key:'TALENTOS',     label:'Talentos y Dones',  sym:'◈', n:'06' },
+    { key:'MENSAJE',      label:'Carta del Alma',    sym:'❧', n:'07' },
+    { key:'AFIRMACIONES', label:'Afirmaciones',      sym:'·', n:'08' },
   ]
 
   const statuses = [
@@ -780,70 +802,149 @@
   function ocultar(id) { document.getElementById(id).style.display = 'none' }
   function getVal(id) { return document.getElementById(id).value.trim() }
 
-  function parsearSecciones(texto) {
-    const resultado = {}
-    SECCIONES.forEach(s => { resultado[s.key] = '' })
-    const regex = /\[([A-ZÁÉÍÓÚ_]+)\]\s*/g
-    let match, lastKey = null, lastIndex = 0
-    while ((match = regex.exec(texto)) !== null) {
-      const clave = match[1]
-      const sec = SECCIONES.find(s => s.key === clave)
-      if (!sec) continue
-      if (lastKey) resultado[lastKey] = texto.slice(lastIndex, match.index).trim()
-      lastKey = clave
-      lastIndex = match.index + match[0].length
-    }
-    if (lastKey) resultado[lastKey] = texto.slice(lastIndex).trim()
-    return resultado
+  // ── Usos ──
+  function getUsos() {
+    try {
+      const d = JSON.parse(localStorage.getItem(STORAGE_KEY))
+      if (!d) return { count:0, timestamp:Date.now() }
+      if (Date.now() - d.timestamp > 86400000) { localStorage.removeItem(STORAGE_KEY); return { count:0, timestamp:Date.now() } }
+      return d
+    } catch { return { count:0, timestamp:Date.now() } }
+  }
+  function registrarUso() { const d=getUsos(); d.count++; localStorage.setItem(STORAGE_KEY, JSON.stringify(d)) }
+  function horasRestantes() {
+    try {
+      const d = JSON.parse(localStorage.getItem(STORAGE_KEY))
+      if (!d) return 0
+      return Math.ceil((86400000 - (Date.now() - d.timestamp)) / 3600000)
+    } catch { return 0 }
   }
 
-  function renderizarInforme(nombre, fecha, lugar, secciones) {
-    const informeEl = document.getElementById('informe')
-    informeEl.innerHTML = `
-      <div class="informe-wrap">
-        <div class="i-cover">
-          <div class="i-cover-tag">DE RAÍZ AL ALMA · CARTA NATAL</div>
-          <div class="i-nombre">${nombre}</div>
-          <h2>Informe Astrológico Completo</h2>
-          <div style="height:.8rem"></div>
-          <div class="i-pills">
-            <span class="i-pill">📅 ${fecha}</span>
-            <span class="i-pill">📍 ${lugar}</span>
-          </div>
-
+  // ── Historial ──
+  function getHistorial() { try { return JSON.parse(localStorage.getItem(HISTORIAL_KEY)) || [] } catch { return [] } }
+  function guardarEnHistorial(nombre, fecha, lugar, foco, secciones) {
+    const h = getHistorial()
+    h.unshift({ id:Date.now(), nombre, fecha, lugar, foco:foco||'completo', secciones, timestamp:Date.now() })
+    if (h.length > HISTORIAL_MAX) h.pop()
+    localStorage.setItem(HISTORIAL_KEY, JSON.stringify(h))
+  }
+  function renderizarHistorial() {
+    const h = getHistorial()
+    const wrap = document.getElementById('historial-wrap')
+    const lista = document.getElementById('historial-lista')
+    if (!h.length) { wrap.style.display='none'; return }
+    wrap.style.display = 'block'
+    lista.innerHTML = h.map(e => {
+      const fg = new Date(e.timestamp).toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric'})
+      return `<div class="historial-item" onclick="verDesdeHistorial(${e.id})" role="button" tabindex="0" aria-label="Ver informe de ${e.nombre}">
+        <div class="historial-info">
+          <div class="historial-nombre">${e.nombre}</div>
+          <div class="historial-meta">${e.fecha} · ${e.lugar} · ${fg}</div>
         </div>
-        ${SECCIONES.map(s => {
-          const contenido = secciones[s.key] || ''
-          if (!contenido) return ''
-          if (s.key === 'AFIRMACIONES') {
-            const items = contenido.split('\n').filter(l => l.trim())
-              .map(l => `<div class="afirmacion">${l.replace(/^✦\s*/, '').trim()}</div>`).join('')
-            return `
-              <section class="i-sec ${s.clase}" aria-label="${s.label}">
-                <button class="btn-copiar" onclick="copiarSeccion(this)" aria-label="Copiar sección ${s.label}">◈ Copiar</button>
-                <div class="i-sec-label" aria-hidden="true">${s.emoji} &nbsp; ${s.label.toUpperCase()}</div>
-                <h3>${s.label}</h3>
-                ${items || `<div class="i-sec-body">${contenido}</div>`}
-              </section>`
-          }
-          const parrafos = contenido.split(/\n\n+/).filter(p => p.trim())
-            .map(p => `<p>${p.trim()}</p>`).join('')
-          return `
-            <section class="i-sec ${s.clase}" aria-label="${s.label}">
-              <button class="btn-copiar" onclick="copiarSeccion(this)" aria-label="Copiar sección ${s.label}">◈ Copiar</button>
-              <div class="i-sec-label" aria-hidden="true">${s.emoji} &nbsp; ${s.label.toUpperCase()}</div>
-              <h3>${s.label}</h3>
-              <div class="i-sec-body">${parrafos || contenido}</div>
-            </section>`
-        }).join('')}
-        <div class="btn-actions">
-          <button class="btn-reset" onclick="resetear()" aria-label="Volver al formulario">← Nuevo informe</button>
-          <button class="btn-pdf" onclick="descargarPDF()" aria-label="Descargar informe en PDF">↓ Descargar PDF</button>
-        </div>
+        <span class="historial-foco">${focoLabels[e.foco]||'Completo'}</span>
+        <span class="historial-ver" aria-hidden="true">ver →</span>
       </div>`
+    }).join('')
+  }
+  function verDesdeHistorial(id) {
+    const e = getHistorial().find(h=>h.id===id)
+    if (!e) return
+    ocultar('form-section')
+    renderizarInforme(e.nombre, e.fecha, e.lugar, e.secciones)
+    setTimeout(() => document.getElementById('informe').scrollIntoView({behavior:'smooth',block:'start'}), 100)
+  }
+
+  // ── DOMContentLoaded ──
+  window.addEventListener('DOMContentLoaded', () => {
+    const inputFecha = document.getElementById('fecha')
+    inputFecha.setAttribute('max', new Date().toISOString().split('T')[0])
+
+    const usos = getUsos()
+    const restantes = LIMITE - usos.count
+    const btn = document.getElementById('btn-gen')
+    if (restantes <= 0) {
+      btn.disabled = true
+      btn.querySelector('span').textContent = `Límite alcanzado — volvé en ${horasRestantes()}hs`
+    } else {
+      btn.querySelector('span').textContent = `Generar mi informe natal (${restantes} restante${restantes===1?'':'s'})`
+    }
+    renderizarHistorial()
+  })
+
+  // ── Parsear secciones ──
+  function parsearSecciones(texto) {
+    const res = {}
+    SECCIONES.forEach(s => { res[s.key] = '' })
+    const regex = /\[([A-ZÁÉÍÓÚ_]+)\]\s*/g
+    let match, lastKey=null, lastIdx=0
+    while ((match=regex.exec(texto))!==null) {
+      const clave = match[1]
+      const sec = SECCIONES.find(s=>s.key===clave)
+      if (!sec) continue
+      if (lastKey) res[lastKey] = texto.slice(lastIdx, match.index).trim()
+      lastKey = clave
+      lastIdx = match.index + match[0].length
+    }
+    if (lastKey) res[lastKey] = texto.slice(lastIdx).trim()
+    return res
+  }
+
+  // ── Renderizar informe ──
+  function renderizarInforme(nombre, fecha, lugar, secciones) {
+    const el = document.getElementById('informe')
+    const seccionesHTML = SECCIONES.map((s, i) => {
+      const contenido = secciones[s.key] || ''
+      if (!contenido) return ''
+
+      if (s.key === 'AFIRMACIONES') {
+        const items = contenido.split('\n').filter(l=>l.trim())
+          .map(l=>`<div class="afirmacion">${l.replace(/^✦\s*/,'').trim()}</div>`).join('')
+        return `<section class="i-sec" aria-label="${s.label}">
+          <button class="btn-copiar" onclick="copiarSeccion(this)" aria-label="Copiar ${s.label}">copiar</button>
+          <div class="i-sec-header">
+            <span class="i-sec-num">${s.n}</span>
+            <h2 class="i-sec-title">${s.label}</h2>
+            <span class="i-sec-sym" aria-hidden="true">${s.sym}</span>
+          </div>
+          ${items || `<div class="i-sec-body"><p>${contenido}</p></div>`}
+        </section>`
+      }
+
+      const parrafos = contenido.split(/\n\n+/).filter(p=>p.trim())
+        .map(p=>`<p>${p.trim()}</p>`).join('')
+      return `<section class="i-sec" aria-label="${s.label}">
+        <button class="btn-copiar" onclick="copiarSeccion(this)" aria-label="Copiar ${s.label}">copiar</button>
+        <div class="i-sec-header">
+          <span class="i-sec-num">${s.n}</span>
+          <h2 class="i-sec-title">${s.label}</h2>
+          <span class="i-sec-sym" aria-hidden="true">${s.sym}</span>
+        </div>
+        <div class="i-sec-body">${parrafos||contenido}</div>
+      </section>`
+    }).join('')
+
+    el.innerHTML = `<div class="informe-wrap">
+      <div class="i-cover">
+        <div>
+          <div class="i-cover-tag">De Raíz al Alma · Carta Natal</div>
+          <div class="i-cover-nombre">${nombre}</div>
+          <div class="i-cover-titulo">Informe Astrológico Personalizado</div>
+        </div>
+        <div class="i-cover-meta">
+          <span class="i-cover-pill">📅 ${fecha}</span>
+          <span class="i-cover-pill">📍 ${lugar}</span>
+        </div>
+      </div>
+      ${seccionesHTML}
+      <div class="i-actions">
+        <button class="btn-accion primary" onclick="resetear()" aria-label="Volver al formulario">← nuevo informe</button>
+        <button class="btn-accion" onclick="descargarPDF()" aria-label="Descargar PDF">↓ descargar pdf</button>
+      </div>
+    </div>`
     mostrar('informe')
   }
 
+  // ── Generar ──
   async function generarInforme() {
     const nombre = getVal('nombre')
     const fecha  = getVal('fecha')
@@ -857,49 +958,24 @@
 
     const usos = getUsos()
     if (usos.count >= LIMITE) {
-      errBox.textContent = `Alcanzaste el límite de ${LIMITE} informes por día. Volvé en ${horasRestantes()} hora${horasRestantes() === 1 ? '' : 's'}.`
+      errBox.textContent = `Alcanzaste el límite de ${LIMITE} informes por día. Volvé en ${horasRestantes()} hora${horasRestantes()===1?'':'s'}.`
       errBox.style.display = 'block'
-      const btn = document.getElementById('btn-gen')
-      btn.disabled = true
-      btn.textContent = `Límite alcanzado — volvé en ${horasRestantes()}hs`
       return
     }
 
     if (!nombre || !fecha || !lugar) {
-      errBox.textContent = 'Completá al menos nombre, fecha y lugar de nacimiento.'
+      errBox.textContent = 'Completá nombre, fecha y lugar de nacimiento.'
       errBox.style.display = 'block'
       return
     }
 
-    // Validación de fecha
     const fechaDate = new Date(fecha)
     const hoy = new Date()
-    const anioMin = 1900
-    const anioMax = hoy.getFullYear()
-
-    if (isNaN(fechaDate.getTime())) {
-      errBox.textContent = 'La fecha de nacimiento no es válida.'
-      errBox.style.display = 'block'
-      return
-    }
-    if (fechaDate > hoy) {
-      errBox.textContent = 'La fecha de nacimiento no puede ser en el futuro.'
-      errBox.style.display = 'block'
-      return
-    }
-    if (fechaDate.getFullYear() < anioMin) {
-      errBox.textContent = `La fecha de nacimiento no puede ser anterior a ${anioMin}.`
-      errBox.style.display = 'block'
-      return
-    }
-    if (fechaDate.getFullYear() > anioMax - 1) {
-      errBox.textContent = 'Ingresá una fecha de nacimiento válida.'
-      errBox.style.display = 'block'
-      return
-    }
+    if (isNaN(fechaDate.getTime())) { errBox.textContent='La fecha no es válida.'; errBox.style.display='block'; return }
+    if (fechaDate > hoy) { errBox.textContent='La fecha no puede ser en el futuro.'; errBox.style.display='block'; return }
+    if (fechaDate.getFullYear() < 1900) { errBox.textContent='La fecha no puede ser anterior a 1900.'; errBox.style.display='block'; return }
 
     ocultar('form-section')
-    ocultar('historial-wrap')
     document.getElementById('loading-section').style.display = 'block'
     document.getElementById('btn-gen').disabled = true
 
@@ -910,13 +986,13 @@
 
     const progressInterval = setInterval(() => {
       elapsed++
-      bar.style.width = Math.min(90, (elapsed / ESTIMATED) * 100) + '%'
+      bar.style.width = Math.min(90, (elapsed/ESTIMATED)*100) + '%'
       timer.textContent = elapsed + 's'
     }, 1000)
 
     let si = 0
     const statusInterval = setInterval(() => {
-      si = (si + 1) % statuses.length
+      si = (si+1) % statuses.length
       document.getElementById('loading-status').textContent = statuses[si]
     }, 2500)
 
@@ -924,8 +1000,8 @@
 
     try {
       const res = await fetch(`${BACKEND_URL}/api/carta-natal`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
         body: JSON.stringify({ nombre, fecha, hora, lugar, foco, nivel })
       })
 
@@ -939,27 +1015,25 @@
 
       clearAll()
       bar.style.width = '100%'
-      timer.textContent = elapsed + 's'
       await new Promise(r => setTimeout(r, 400))
 
       const secciones = parsearSecciones(texto)
       registrarUso()
       guardarEnHistorial(nombre, fecha, lugar, foco, secciones)
-      renderizarHistorial()
 
       const usosActuales = getUsos()
       const restantes = LIMITE - usosActuales.count
       const btnGen = document.getElementById('btn-gen')
       if (restantes <= 0) {
         btnGen.disabled = true
-        btnGen.textContent = `Límite alcanzado — volvé en ${horasRestantes()}hs`
+        btnGen.querySelector('span').textContent = `Límite alcanzado — volvé en ${horasRestantes()}hs`
       } else {
-        btnGen.textContent = `✦ GENERAR MI INFORME NATAL ✦  (${restantes} restante${restantes === 1 ? '' : 's'})`
+        btnGen.querySelector('span').textContent = `Generar mi informe natal (${restantes} restante${restantes===1?'':'s'})`
       }
 
       ocultar('loading-section')
       renderizarInforme(nombre, fecha, lugar, secciones)
-      setTimeout(() => document.getElementById('informe').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100)
+      setTimeout(() => document.getElementById('informe').scrollIntoView({behavior:'smooth',block:'start'}), 100)
 
     } catch (err) {
       clearAll()
@@ -967,44 +1041,32 @@
       mostrar('form-section')
       renderizarHistorial()
       document.getElementById('btn-gen').disabled = false
-
-      // Mensajes de error amigables
       let msg = err.message || ''
-      if (msg.includes('429') || msg.toLowerCase().includes('límite') || msg.toLowerCase().includes('limite')) {
-        msg = 'Alcanzaste el límite de consultas por hora. Esperá unos minutos e intentá de nuevo.'
-      } else if (msg.includes('500') || msg.includes('servidor')) {
-        msg = 'Hubo un problema al generar tu informe. Intentá de nuevo en un momento.'
-      } else if (msg.includes('fetch') || msg.includes('network') || msg.toLowerCase().includes('failed')) {
-        msg = 'No pudimos conectarnos. Verificá tu conexión a internet e intentá de nuevo.'
-      } else if (msg.includes('contenido')) {
-        msg = 'El informe no se generó correctamente. Intentá de nuevo.'
-      }
-
+      if (msg.includes('429') || msg.toLowerCase().includes('límite')) msg = 'Alcanzaste el límite de consultas por hora. Esperá unos minutos e intentá de nuevo.'
+      else if (msg.includes('500') || msg.includes('servidor')) msg = 'Hubo un problema al generar tu informe. Intentá de nuevo en un momento.'
+      else if (msg.includes('fetch') || msg.includes('network') || msg.toLowerCase().includes('failed')) msg = 'No pudimos conectarnos. Verificá tu conexión e intentá de nuevo.'
+      else if (msg.includes('contenido')) msg = 'El informe no se generó correctamente. Intentá de nuevo.'
       errBox.textContent = msg
       errBox.style.display = 'block'
     }
   }
 
+  // ── Copiar sección ──
   function copiarSeccion(btn) {
     const sec = btn.closest('.i-sec')
-    const h3 = sec?.querySelector('h3')?.textContent?.trim() || ''
+    const h2 = sec?.querySelector('h2')?.textContent?.trim() || ''
     const items = sec?.querySelectorAll('.i-sec-body p, .afirmacion')
-    let texto = h3 + '\n\n'
-    if (items?.length) {
-      items.forEach(el => { texto += el.textContent.trim() + '\n\n' })
-    } else {
-      texto += sec?.querySelector('.i-sec-body')?.textContent?.trim() || ''
-    }
+    let texto = h2 + '\n\n'
+    if (items?.length) items.forEach(el => { texto += el.textContent.trim() + '\n\n' })
+    else texto += sec?.querySelector('.i-sec-body')?.textContent?.trim() || ''
     navigator.clipboard.writeText(texto.trim()).then(() => {
-      btn.textContent = '✓ Copiado'
+      btn.textContent = '✓ copiado'
       btn.classList.add('copiado')
-      setTimeout(() => { btn.textContent = '◈ Copiar'; btn.classList.remove('copiado') }, 2000)
-    }).catch(() => {
-      btn.textContent = '✗ Error'
-      setTimeout(() => { btn.textContent = '◈ Copiar' }, 2000)
-    })
+      setTimeout(() => { btn.textContent = 'copiar'; btn.classList.remove('copiado') }, 2000)
+    }).catch(() => { btn.textContent = '✗ error'; setTimeout(()=>{btn.textContent='copiar'},2000) })
   }
 
+  // ── Resetear ──
   function resetear() {
     ocultar('informe')
     document.getElementById('informe').innerHTML = ''
@@ -1013,36 +1075,34 @@
     document.getElementById('btn-gen').disabled = false
   }
 
+  // ── Descargar PDF ──
   async function descargarPDF() {
-    const btn = document.querySelector('.btn-pdf')
-    btn.textContent = '⏳ Generando PDF...'
+    const btn = document.querySelector('.btn-accion:last-child')
+    btn.textContent = '⏳ generando pdf...'
     btn.disabled = true
     try {
       const { jsPDF } = window.jspdf
       const canvas = await html2canvas(document.getElementById('informe'), {
-        scale: 2, useCORS: true,
-        backgroundColor: '#0e0b18',
-        logging: false, windowWidth: 760,
+        scale:2, useCORS:true, backgroundColor:'#08111f', logging:false, windowWidth:1100
       })
       const imgData = canvas.toDataURL('image/jpeg', 0.92)
-      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
+      const pdf = new jsPDF({orientation:'portrait',unit:'mm',format:'a4'})
       const pageW = pdf.internal.pageSize.getWidth()
       const pageH = pdf.internal.pageSize.getHeight()
       const imgH = (canvas.height * pageW) / canvas.width
-      let posY = 0, remaining = imgH
+      let posY=0, remaining=imgH
       while (remaining > 0) {
-        pdf.addImage(imgData, 'JPEG', 0, posY === 0 ? 0 : posY, pageW, imgH)
-        remaining -= pageH
-        posY -= pageH
+        pdf.addImage(imgData,'JPEG',0,posY===0?0:posY,pageW,imgH)
+        remaining -= pageH; posY -= pageH
         if (remaining > 0) pdf.addPage()
       }
-      const nombre = document.querySelector('.i-nombre')?.textContent?.trim() || 'carta-natal'
-      pdf.save(`informe-${nombre.toLowerCase().replace(/\s+/g, '-')}.pdf`)
-    } catch (err) {
+      const nombre = document.querySelector('.i-cover-nombre')?.textContent?.trim() || 'carta-natal'
+      pdf.save(`informe-${nombre.toLowerCase().replace(/\s+/g,'-')}.pdf`)
+    } catch(err) {
       console.error(err)
       alert('Error al generar el PDF. Intentá de nuevo.')
     } finally {
-      btn.textContent = '↓ Descargar PDF'
+      btn.textContent = '↓ descargar pdf'
       btn.disabled = false
     }
   }
