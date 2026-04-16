@@ -715,6 +715,51 @@
   // ── Cambiá esta URL cuando deployés el backend ──
   const BACKEND_URL = 'https://informe-astral.fly.dev'
 
+  // ── Límite de generaciones por sesión (24hs) ──
+  const LIMITE = 3
+  const STORAGE_KEY = 'cn_usos'
+
+  function getUsos() {
+    try {
+      const data = JSON.parse(localStorage.getItem(STORAGE_KEY))
+      if (!data) return { count: 0, timestamp: Date.now() }
+      // Resetear si pasaron más de 24hs
+      if (Date.now() - data.timestamp > 24 * 60 * 60 * 1000) {
+        localStorage.removeItem(STORAGE_KEY)
+        return { count: 0, timestamp: Date.now() }
+      }
+      return data
+    } catch { return { count: 0, timestamp: Date.now() } }
+  }
+
+  function registrarUso() {
+    const data = getUsos()
+    data.count++
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+  }
+
+  function horasRestantes() {
+    try {
+      const data = JSON.parse(localStorage.getItem(STORAGE_KEY))
+      if (!data) return 0
+      const ms = (24 * 60 * 60 * 1000) - (Date.now() - data.timestamp)
+      return Math.ceil(ms / (60 * 60 * 1000))
+    } catch { return 0 }
+  }
+
+  // Mostrar usos restantes en el botón al cargar
+  window.addEventListener('DOMContentLoaded', () => {
+    const usos = getUsos()
+    const restantes = LIMITE - usos.count
+    const btn = document.getElementById('btn-gen')
+    if (restantes <= 0) {
+      btn.disabled = true
+      btn.textContent = `Límite alcanzado — volvé en ${horasRestantes()}hs`
+    } else if (restantes <= LIMITE) {
+      btn.textContent = `✦ GENERAR MI INFORME NATAL ✦  (${restantes} restante${restantes === 1 ? '' : 's'})`
+    }
+  })
+
   const SECCIONES = [
     { key: 'SOL',          label: 'El Sol',           clase: 'sol',          emoji: '☉' },
     { key: 'LUNA',         label: 'La Luna',          clase: 'luna',         emoji: '☽' },
@@ -833,6 +878,17 @@
     const errBox = document.getElementById('err-box')
     errBox.style.display = 'none'
 
+    // Chequeo de límite local
+    const usos = getUsos()
+    if (usos.count >= LIMITE) {
+      errBox.textContent = `Alcanzaste el límite de ${LIMITE} informes por día. Volvé en ${horasRestantes()} hora${horasRestantes() === 1 ? '' : 's'}.`
+      errBox.style.display = 'block'
+      const btn = document.getElementById('btn-gen')
+      btn.disabled = true
+      btn.textContent = `Límite alcanzado — volvé en ${horasRestantes()}hs`
+      return
+    }
+
     if (!nombre || !fecha || !lugar) {
       errBox.textContent = 'Completá al menos nombre, fecha y lugar de nacimiento.'
       errBox.style.display = 'block'
@@ -892,6 +948,19 @@
       await new Promise(r => setTimeout(r, 400))
 
       const secciones = parsearSecciones(texto)
+      registrarUso()
+
+      // Actualizar botón con usos restantes
+      const usosActuales = getUsos()
+      const restantes = LIMITE - usosActuales.count
+      const btnGen = document.getElementById('btn-gen')
+      if (restantes <= 0) {
+        btnGen.disabled = true
+        btnGen.textContent = `Límite alcanzado — volvé en ${horasRestantes()}hs`
+      } else {
+        btnGen.textContent = `✦ GENERAR MI INFORME NATAL ✦  (${restantes} restante${restantes === 1 ? '' : 's'})`
+      }
+
       ocultar('loading-section')
       renderizarInforme(nombre, fecha, lugar, secciones)
 
