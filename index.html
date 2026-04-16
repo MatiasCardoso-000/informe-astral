@@ -533,6 +533,102 @@
 
   @media print { .btn-copiar { display: none !important; } }
 
+  /* ─── HISTORIAL ─── */
+  .historial-wrap {
+    margin-top: 2rem;
+  }
+
+  .historial-titulo {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .historial-titulo::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(201,168,76,0.2);
+  }
+
+  .historial-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .historial-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.85rem 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.2s;
+    gap: 1rem;
+  }
+
+  .historial-item:hover {
+    border-color: rgba(201,168,76,0.4);
+    background: rgba(255,255,255,0.07);
+  }
+
+  .historial-info { flex: 1; min-width: 0; }
+
+  .historial-nombre {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: #f5f0e8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .historial-meta {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .historial-foco {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 100px;
+    padding: 2px 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .historial-ver {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    color: rgba(201,168,76,0.6);
+    flex-shrink: 0;
+  }
+
+  .historial-empty {
+    font-size: 13px;
+    color: var(--text-dim);
+    font-style: italic;
+    text-align: center;
+    padding: 1rem 0;
+  }
+
+  @media print { .historial-wrap { display: none !important; } }
+
   /* ─── PRINT ─── */
   @media print {
     @page { margin: 2cm; size: A4; }
@@ -599,7 +695,7 @@
 
   <!-- HEADER -->
   <div class="header">
-    <div class="eyebrow">Sistema PRO · Cartas Natales</div>
+    <div class="eyebrow">De Raíz al Alma</div>
     <h1>Tu Carta Natal,<br><em>interpretada con precisión</em></h1>
     <div class="ornament"><span>✦ ✦ ✦</span></div>
     <p>No es predicción. Es claridad emocional aplicada a tu vida real.<br>Ingresá tus datos y recibí un informe personalizado al instante.</p>
@@ -747,6 +843,67 @@
     } catch { return 0 }
   }
 
+  // ── Historial ──
+  const HISTORIAL_KEY = 'cn_historial'
+  const HISTORIAL_MAX = 5
+
+  const focoLabels = {
+    completo: 'Completo', amor: 'Amor', mision: 'Misión',
+    emocional: 'Emocional', talentos: 'Talentos'
+  }
+
+  function getHistorial() {
+    try { return JSON.parse(localStorage.getItem(HISTORIAL_KEY)) || [] }
+    catch { return [] }
+  }
+
+  function guardarEnHistorial(nombre, fecha, lugar, foco, secciones) {
+    const historial = getHistorial()
+    const entrada = {
+      id: Date.now(),
+      nombre, fecha, lugar,
+      foco: foco || 'completo',
+      secciones,
+      timestamp: Date.now()
+    }
+    historial.unshift(entrada)
+    if (historial.length > HISTORIAL_MAX) historial.pop()
+    localStorage.setItem(HISTORIAL_KEY, JSON.stringify(historial))
+  }
+
+  function renderizarHistorial() {
+    const historial = getHistorial()
+    const wrap = document.getElementById('historial-wrap')
+    const lista = document.getElementById('historial-lista')
+    if (!historial.length) { wrap.style.display = 'none'; return }
+
+    wrap.style.display = 'block'
+    lista.innerHTML = historial.map(h => {
+      const fecha = new Date(h.timestamp).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' })
+      return `
+        <div class="historial-item" onclick="verDesdeHistorial(${h.id})">
+          <div class="historial-info">
+            <div class="historial-nombre">${h.nombre}</div>
+            <div class="historial-meta">${h.fecha} · ${h.lugar} · ${fecha}</div>
+          </div>
+          <span class="historial-foco">${focoLabels[h.foco] || 'Completo'}</span>
+          <span class="historial-ver">Ver →</span>
+        </div>`
+    }).join('')
+  }
+
+  function verDesdeHistorial(id) {
+    const historial = getHistorial()
+    const entrada = historial.find(h => h.id === id)
+    if (!entrada) return
+    ocultar('form-section')
+    ocultar('historial-wrap')
+    renderizarInforme(entrada.nombre, entrada.fecha, entrada.lugar, entrada.secciones)
+    setTimeout(() => {
+      document.getElementById('informe').scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 100)
+  }
+
   // Mostrar usos restantes en el botón al cargar
   window.addEventListener('DOMContentLoaded', () => {
     const usos = getUsos()
@@ -758,6 +915,7 @@
     } else if (restantes <= LIMITE) {
       btn.textContent = `✦ GENERAR MI INFORME NATAL ✦  (${restantes} restante${restantes === 1 ? '' : 's'})`
     }
+    renderizarHistorial()
   })
 
   const SECCIONES = [
@@ -820,7 +978,7 @@
     informeEl.innerHTML = `
       <div class="informe-wrap">
         <div class="i-cover">
-          <div class="i-cover-tag">SISTEMA PRO · CARTA NATAL PERSONALIZADA</div>
+          <div class="i-cover-tag">DE RAÍZ AL ALMA · CARTA NATAL</div>
           <div class="i-nombre">${nombre}</div>
           <h2>Informe Astrológico Completo</h2>
           <div style="height:.8rem"></div>
@@ -949,6 +1107,8 @@
 
       const secciones = parsearSecciones(texto)
       registrarUso()
+      guardarEnHistorial(nombre, fecha, lugar, foco, secciones)
+      renderizarHistorial()
 
       // Actualizar botón con usos restantes
       const usosActuales = getUsos()
@@ -1007,6 +1167,7 @@
     ocultar('informe')
     document.getElementById('informe').innerHTML = ''
     mostrar('form-section')
+    renderizarHistorial()
     document.getElementById('btn-gen').disabled = false
   }
 
