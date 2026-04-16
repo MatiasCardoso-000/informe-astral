@@ -581,7 +581,7 @@
 
         <div class="field">
           <label for="fecha">Fecha de nacimiento</label>
-          <input type="date" id="fecha" name="fecha" autocomplete="bday" required />
+          <input type="date" id="fecha" name="fecha" autocomplete="bday" required min="1900-01-01" />
         </div>
 
         <div class="field">
@@ -658,6 +658,7 @@
     starsEl.appendChild(s)
   }
 
+  // ── Configuración ── cambiá estos valores para personalizar
   const BACKEND_URL = 'https://informe-astral.fly.dev'
   const LIMITE = 3
   const STORAGE_KEY = 'cn_usos'
@@ -738,6 +739,11 @@
   }
 
   window.addEventListener('DOMContentLoaded', () => {
+    // Bloquear fechas futuras en el input
+    const inputFecha = document.getElementById('fecha')
+    const hoyStr = new Date().toISOString().split('T')[0]
+    inputFecha.setAttribute('max', hoyStr)
+
     const usos = getUsos()
     const restantes = LIMITE - usos.count
     const btn = document.getElementById('btn-gen')
@@ -804,6 +810,7 @@
             <span class="i-pill">📅 ${fecha}</span>
             <span class="i-pill">📍 ${lugar}</span>
           </div>
+
         </div>
         ${SECCIONES.map(s => {
           const contenido = secciones[s.key] || ''
@@ -860,6 +867,33 @@
 
     if (!nombre || !fecha || !lugar) {
       errBox.textContent = 'Completá al menos nombre, fecha y lugar de nacimiento.'
+      errBox.style.display = 'block'
+      return
+    }
+
+    // Validación de fecha
+    const fechaDate = new Date(fecha)
+    const hoy = new Date()
+    const anioMin = 1900
+    const anioMax = hoy.getFullYear()
+
+    if (isNaN(fechaDate.getTime())) {
+      errBox.textContent = 'La fecha de nacimiento no es válida.'
+      errBox.style.display = 'block'
+      return
+    }
+    if (fechaDate > hoy) {
+      errBox.textContent = 'La fecha de nacimiento no puede ser en el futuro.'
+      errBox.style.display = 'block'
+      return
+    }
+    if (fechaDate.getFullYear() < anioMin) {
+      errBox.textContent = `La fecha de nacimiento no puede ser anterior a ${anioMin}.`
+      errBox.style.display = 'block'
+      return
+    }
+    if (fechaDate.getFullYear() > anioMax - 1) {
+      errBox.textContent = 'Ingresá una fecha de nacimiento válida.'
       errBox.style.display = 'block'
       return
     }
