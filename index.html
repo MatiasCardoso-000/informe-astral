@@ -479,6 +479,116 @@
     transition: all 0.2s;
   }
   .btn-reset:hover { background: rgba(201,168,76,0.08); border-color: rgba(201,168,76,0.5); }
+
+  .btn-pdf {
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold);
+    padding: 0.65rem 1.6rem;
+    border-radius: 7px;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    display: block;
+    margin: 0.7rem auto 0;
+    transition: all 0.2s;
+  }
+  .btn-pdf:hover { background: rgba(201,168,76,0.22); }
+
+  .btn-actions {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-actions .btn-reset,
+  .btn-actions .btn-pdf {
+    margin: 0;
+  }
+
+  .btn-copiar {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    background: rgba(201,168,76,0.18);
+    border: 1px solid rgba(201,168,76,0.5);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+  }
+  .btn-copiar:hover { background: rgba(201,168,76,0.32); border-color: var(--gold); color: #f5e8c0; }
+  .btn-copiar.copiado { color: #7acc9f; border-color: rgba(122,204,159,0.6); background: rgba(122,204,159,0.15); }
+
+  @media print { .btn-copiar { display: none !important; } }
+
+  /* ─── PRINT ─── */
+  @media print {
+    @page { margin: 2cm; size: A4; }
+
+    #stars, .header, .features, #form-section,
+    .loading, .btn-actions { display: none !important; }
+
+    body { background: white; color: #1a1520; font-size: 13px; }
+
+    .wrap { padding: 0; max-width: 100%; }
+
+    #informe { display: block !important; }
+
+    .i-cover {
+      background: #1c0d38 !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      border-radius: 8px;
+      padding: 2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .i-cover h2, .i-nombre { color: #f5f0e8 !important; }
+    .i-cover-tag, .i-pill { color: #c9a84c !important; }
+
+    .i-sec {
+      background: #f9f6f0 !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      border: 1px solid #e0d5b8 !important;
+      border-radius: 6px;
+      padding: 1.4rem;
+      margin-bottom: 0.8rem;
+      page-break-inside: avoid;
+    }
+
+    .i-sec::before {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .i-sec-label { color: #b8913e !important; }
+    .i-sec h3 { color: #1a1520 !important; }
+    .i-sec-body { color: #3a3545 !important; }
+    .i-sec-body p { color: #3a3545 !important; }
+
+    .afirmacion {
+      background: #faf5e8 !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      border-left-color: #c9a84c !important;
+      color: #3a3545 !important;
+    }
+
+    .informe-wrap { animation: none !important; }
+  }
 </style>
 </head>
 <body>
@@ -697,12 +807,16 @@
 
           return `
             <div class="i-sec ${s.clase}">
+              <button class="btn-copiar" onclick="copiarSeccion(this, '${s.key}')" data-key="${s.key}">◈ Copiar</button>
               <div class="i-sec-label">${s.emoji} &nbsp; ${s.label.toUpperCase()}</div>
               <h3>${s.label}</h3>
               ${s.key === 'AFIRMACIONES' ? bodyHtml : `<div class="i-sec-body">${contenido.split(/\n\n+/).filter(p=>p.trim()).map(p=>`<p>${p.trim()}</p>`).join('') || contenido}</div>`}
             </div>`
         }).join('')}
-        <button class="btn-reset" onclick="resetear()">← Nuevo informe</button>
+        <div class="btn-actions">
+          <button class="btn-reset" onclick="resetear()">← Nuevo informe</button>
+          <button class="btn-pdf" onclick="descargarPDF()">↓ Descargar PDF</button>
+        </div>
       </div>
     `
     mostrar('informe')
@@ -796,13 +910,87 @@
     }
   }
 
+  function copiarSeccion(btn, key) {
+    const sec = btn.closest('.i-sec')
+    const h3 = sec?.querySelector('h3')?.textContent?.trim() || ''
+    const items = sec?.querySelectorAll('.i-sec-body p, .afirmacion')
+    let texto = h3 + '\n\n'
+    if (items?.length) {
+      items.forEach(el => { texto += el.textContent.trim() + '\n\n' })
+    } else {
+      texto += sec?.querySelector('.i-sec-body')?.textContent?.trim() || ''
+    }
+
+    navigator.clipboard.writeText(texto.trim()).then(() => {
+      btn.textContent = '✓ Copiado'
+      btn.classList.add('copiado')
+      setTimeout(() => {
+        btn.textContent = '◈ Copiar'
+        btn.classList.remove('copiado')
+      }, 2000)
+    }).catch(() => {
+      btn.textContent = '✗ Error'
+      setTimeout(() => { btn.textContent = '◈ Copiar' }, 2000)
+    })
+  }
+
   function resetear() {
     ocultar('informe')
     document.getElementById('informe').innerHTML = ''
     mostrar('form-section')
     document.getElementById('btn-gen').disabled = false
   }
+
+  async function descargarPDF() {
+    const btn = document.querySelector('.btn-pdf')
+    btn.textContent = '⏳ Generando PDF...'
+    btn.disabled = true
+
+    try {
+      const { jsPDF } = window.jspdf
+      const informe = document.getElementById('informe')
+
+      const canvas = await html2canvas(informe, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#0e0b18',
+        logging: false,
+        windowWidth: 760,
+      })
+
+      const imgData = canvas.toDataURL('image/jpeg', 0.92)
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
+
+      const pageW = pdf.internal.pageSize.getWidth()
+      const pageH = pdf.internal.pageSize.getHeight()
+      const imgW = pageW
+      const imgH = (canvas.height * imgW) / canvas.width
+
+      let posY = 0
+      let remaining = imgH
+
+      // Paginar si el informe es más largo que una página
+      while (remaining > 0) {
+        pdf.addImage(imgData, 'JPEG', 0, posY === 0 ? 0 : posY, imgW, imgH)
+        remaining -= pageH
+        posY -= pageH
+        if (remaining > 0) pdf.addPage()
+      }
+
+      const nombre = document.querySelector('.i-nombre')?.textContent?.trim() || 'carta-natal'
+      pdf.save(`informe-${nombre.toLowerCase().replace(/\s+/g, '-')}.pdf`)
+
+    } catch (err) {
+      console.error(err)
+      alert('Error al generar el PDF. Intentá de nuevo.')
+    } finally {
+      btn.textContent = '↓ Descargar PDF'
+      btn.disabled = false
+    }
+  }
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
 </html>
